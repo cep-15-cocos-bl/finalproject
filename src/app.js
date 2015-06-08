@@ -31,7 +31,7 @@ var scene01 = cc.Scene.extend({
         );
 
         this.createPlatform(
-            4, Infinity, Infinity, 60, 115, ["box", 20, 20], 0, 0
+            4, Infinity, Infinity, 75, 115, ["box", 50, 20], 0, 0
         );
 
         this.createPlatform(
@@ -57,6 +57,7 @@ var scene01 = cc.Scene.extend({
         this.createPlatform(
             10, Infinity, Infinity, 325, 595, ["box", 350, 10], 0, 0
         );
+
 
         this.scheduleUpdate();
     },
