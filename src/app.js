@@ -3,6 +3,7 @@ var world;
 var scene01 = cc.Scene.extend({
 
     platforms: [],
+    btnLayer: null,
 
     onEnter: function() {
         this._super();
@@ -58,6 +59,8 @@ var scene01 = cc.Scene.extend({
             10, Infinity, Infinity, 325, 595, ["box", 350, 10], 0, 0
         );
 
+        this.btnLayer = new buttonLayer();
+        this.addChild(this.btnLayer);
 
         this.scheduleUpdate();
     },

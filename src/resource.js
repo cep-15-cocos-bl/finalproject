@@ -12,7 +12,9 @@ var res = {
     UwalkL_png:"res/UwalkL.png",
     UwalkL_plist:"res/UwalkL.plist",
     UwalkR_png:"res/UwalkR.png",
-    UwalkR_plist:"res/UwalkR.plist"
+    UwalkR_plist:"res/UwalkR.plist",
+    leftbutton_png: "res/leftbutton.png",
+    rightbutton_png: "res/rightbutton.png"
 };
 
 var g_resources = [];
