@@ -136,7 +136,7 @@ var scene01 = cc.Scene.extend({
         this.btnLayer = new buttonLayer();
         this.addChild(this.btnLayer);
 
-        this.player = new PlayerClass(this, world, 40, 540, 10, 20, false, null);
+        this.player = new PlayerClass(this, world, 40, 540, 10, 20, false, res.player_png);
 
         world.env = this;
         world.setDefaultCollisionHandler(
