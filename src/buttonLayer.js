@@ -22,10 +22,7 @@ var buttonLayer = cc.Layer.extend({
                 var location = target.convertToNodeSpace(touch.getLocation());
                 var targetSize = target.getContentSize();
                 var targetRectangle = cc.rect(0, 0, targetSize.width, targetSize.height);
-                console.log("ayy");
-                if (cc.rectContainsPoint(targetRectangle, location)) {
-                    target.buttonPressed();
-                }
+                console.log(world);
             }
         });
 

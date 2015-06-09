@@ -78,6 +78,7 @@ playerSprite = new cc.Sprite.create(spriteImage);
      this.shape.setFriction(1);
      this.shape.setElasticity(0);
      this.shape.image = playerSprite;
+     this.shape.setCollisionType("player");
      world.addShape(this.shape);
 },
 

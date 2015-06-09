@@ -3,8 +3,6 @@ var res = {
     CloseNormal_png : "res/CloseNormal.png",
     CloseSelected_png : "res/CloseSelected.png",
     player_png : "res/player.png",
-    ground_png : "res/ground.png",
-    platform_png: "res/platform.png",
     walkL_png:"res/a.png",
     walkL_plist:"res/a.plist",
     walkR_png:"res/walkR.png",
