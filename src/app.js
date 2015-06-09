@@ -6,6 +6,7 @@ var scene01 = cc.Scene.extend({
     btnLayer: null,
     player: null,
     graveyard: [],
+    crumblingPlatforms: [],
 
     onEnter: function() {
         this._super();
@@ -61,113 +62,20 @@ var scene01 = cc.Scene.extend({
             10, Infinity, Infinity, 325, 595, ["box", 350, 10], 0, 0, "ground"
         );
 
-        this.createPlatform(
-            11, Infinity, Infinity, 180, 565, ["box", 40, 10], 0, 0, "crumbling"
-        );
+        for(var i = 0; i < 6; i++) {
+            this.platforms[i + 11] = new CrumblingPlatformClass(this, world, i * 40 + 180, 565);
+            this.crumblingPlatforms.push(this.platforms[i + 11]);
+        }
 
-        this.createPlatform(
-            12, Infinity, Infinity, 220, 565, ["box", 40, 10], 0, 0, "crumbling"
-        );
+        this.platforms[17] = new CrumblingPlatformClass(this, world, 120, 90);
+        this.crumblingPlatforms.push(this.platforms[17]);
 
-        this.createPlatform(
-            13, Infinity, Infinity, 260, 565, ["box", 40, 10], 0, 0, "crumbling"
-        );
-
-        this.createPlatform(
-            14, Infinity, Infinity, 300, 565, ["box", 40, 10], 0, 0, "crumbling"
-        );
-
-        this.createPlatform(
-            15, Infinity, Infinity, 340, 565, ["box", 40, 10], 0, 0, "crumbling"
-        );
-
-        this.createPlatform(
-            16, Infinity, Infinity, 380, 565, ["box", 40, 10], 0, 0, "crumbling"
-        );
-
-        this.createPlatform(
-            17, Infinity, Infinity, 120, 75, ["box", 40, 10], 0, 0, "crumbling"
-        );
-
-        this.createPlatform(
-            18, Infinity, Infinity, 120, 295, ["box", 40, 10], 0, 0, "crumbling"
-        );
-
-        this.createPlatform(
-            19, Infinity, Infinity, 160, 295, ["box", 40, 10], 0, 0, "crumbling"
-        );
-
-        this.createPlatform(
-            20, Infinity, Infinity, 200, 295, ["box", 40, 10], 0, 0, "crumbling"
-        );
-
-        this.createPlatform(
-            21, Infinity, Infinity, 240, 295, ["box", 40, 10], 0, 0, "crumbling"
-        );
-
-        this.createPlatform(
-            22, Infinity, Infinity, 280, 295, ["box", 40, 10], 0, 0, "crumbling"
-        );
-
-        this.createPlatform(
-            23, Infinity, Infinity, 320, 295, ["box", 40, 10], 0, 0, "crumbling"
-        );
-
-        this.createPlatform(
-            24, Infinity, Infinity, 360, 295, ["box", 40, 10], 0, 0, "crumbling"
-        );
-
-        this.createPlatform(
-            25, Infinity, Infinity, 400, 295, ["box", 40, 10], 0, 0, "crumbling"
-        );
-
-        this.createPlatform(
-            26, Infinity, Infinity, 440, 295, ["box", 40, 10], 0, 0, "crumbling"
-        );
-
-        this.createPlatform(
-            27, Infinity, Infinity, 480, 295, ["box", 40, 10], 0, 0, "crumbling"
-        );
-
-        this.createPlatform(
-            28, Infinity, Infinity, 480, 305, ["box", 40, 10], 0, 0, "crumbling"
-        );
-
-        this.createPlatform(
-            29, Infinity, Infinity, 440, 305, ["box", 40, 10], 0, 0, "crumbling"
-        );
-
-        this.createPlatform(
-            30, Infinity, Infinity, 400, 305, ["box", 40, 10], 0, 0, "crumbling"
-        );
-
-        this.createPlatform(
-            31, Infinity, Infinity, 360, 305, ["box", 40, 10], 0, 0, "crumbling"
-        );
-
-        this.createPlatform(
-            32, Infinity, Infinity, 320, 305, ["box", 40, 10], 0, 0, "crumbling"
-        );
-
-        this.createPlatform(
-            33, Infinity, Infinity, 280, 305, ["box", 40, 10], 0, 0, "crumbling"
-        );
-
-        this.createPlatform(
-            34, Infinity, Infinity, 240, 305, ["box", 40, 10], 0, 0, "crumbling"
-        );
-
-        this.createPlatform(
-            35, Infinity, Infinity, 200, 305, ["box", 40, 10], 0, 0, "crumbling"
-        );
-
-        this.createPlatform(
-            36, Infinity, Infinity, 160, 305, ["box", 40, 10], 0, 0, "crumbling"
-        );
-
-        this.createPlatform(
-            37, Infinity, Infinity, 120, 305, ["box", 40, 10], 0, 0, "crumbling"
-        );
+        for(var i = 0; i < 2; i++) {
+            for(var j = 0; j < 10; j++) {
+                this.platforms[i * 10 + j + 18] = new CrumblingPlatformClass(this, world, j * 40 + 120, i * 10 + 295);
+                this.crumblingPlatforms.push(this.platforms[i * 10 + j + 18]);
+            }
+        }
 
         this.createPlatform(
             38, Infinity, Infinity, 160, 205, ["box", 30, 30], 0, 0, "ground"
@@ -206,15 +114,15 @@ var scene01 = cc.Scene.extend({
         );
 
         this.createPlatform(
-            47, Infinity, Infinity, 320, 245, ["box", 240, 10], 0, 0, "ground"
+            47, Infinity, Infinity, 320, 245, ["box", 240, 10], 0, 0, "spike"
         );
 
         this.createPlatform(
-            48, Infinity, Infinity, 125, 55, ["box", 150, 10], 0, 0, "ground"
+            48, Infinity, Infinity, 125, 55, ["box", 150, 10], 0, 0, "spike"
         );
 
         this.createPlatform(
-            49, Infinity, Infinity, 520, 205, ["box", 160, 10], 0, 0, "ground"
+            49, Infinity, Infinity, 520, 205, ["box", 160, 10], 0, 0, "spike"
         );
 
         this.createPlatform(
@@ -262,6 +170,7 @@ var scene01 = cc.Scene.extend({
         platShape.setElasticity(elasticity);
         platShape.setCollisionType(type);
         platShape.name = "platform" + id;
+        platShape.exists = true;
 
         this.platforms["plat" + id] = platShape;
     },
@@ -285,7 +194,10 @@ var scene01 = cc.Scene.extend({
     },
 
     postCollision: function(arbiter, space) {
+        if(arbiter.a.collision_type == "crumbling" && arbiter.b.collision_type == "player") {
 
+
+        }
     },
 
     update: function(dt) {

@@ -22,11 +22,22 @@ var buttonLayer = cc.Layer.extend({
                 var location = target.convertToNodeSpace(touch.getLocation());
                 var targetSize = target.getContentSize();
                 var targetRectangle = cc.rect(0, 0, targetSize.width, targetSize.height);
-                console.log(world);
+                if (cc.rectContainsPoint(targetRectangle, location)) {
+                    target.processInput(touch.getLocationX(), touch.getLocationY());
+                }
             }
         });
 
         cc.eventManager.addListener(listener, this);
+    },
+
+    processInput: function(x, y) {
+
+        if(x >= 15 && x <= 45 && y >= 15 && y <= 45) {
+            console.log("left");
+        } else if(x >= 75 && x <= 105 && y >= 15 && y <= 45) {
+            console.log("right");
+        }
     }
 })
 
