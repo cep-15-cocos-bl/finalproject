@@ -176,7 +176,7 @@ var scene01 = cc.Scene.extend({
     },
 
     beginCollision: function(arbiter, space) {
-        if(arbiter.a.collision_type == "ground" && arbiter.b.collision_type == "ground") {
+        if(arbiter.a.collision_type == arbiter.b.collision_type) {
             return false;
         } else if(arbiter.a.collision_type == "ground" && arbiter.b.collision_type == "spike" || 
             arbiter.b.collision_type == "ground" && arbiter.a.collision_type == "spike") {
@@ -195,13 +195,20 @@ var scene01 = cc.Scene.extend({
 
     postCollision: function(arbiter, space) {
         if(arbiter.a.collision_type == "crumbling" && arbiter.b.collision_type == "player") {
-
-
+            this.crumblingPlatforms[arbiter.a.crumblingId].decaying = true;
+        } else if(arbiter.b.collision_type == "crumbling" && arbiter.a.collision_type == "player") {
+            this.crumblingPlatforms[arbiter.b.crumblingId].decaying = true;
         }
     },
 
     update: function(dt) {
         world.step(dt);
+
+        for(var i = 0; i < this.crumblingPlatforms.length; i++) {
+            if(this.crumblingPlatforms[i].decaying) {
+                this.crumblingPlatforms[i].advanceDecay(dt);
+            }
+        }
     }
 
 });

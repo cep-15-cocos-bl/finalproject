@@ -40,10 +40,18 @@ var CrumblingPlatformClass = cc.Sprite.extend({
         if(this.lifespan < dt) {
             // process death
             this.exists = false;
+            this.world.removeShape(this.pshape);
 
         } else {
             this.lifespan -= dt;
         }
 
+    },
+
+    reset: function() {
+        this.lifespan = 1000;
+        this.decaying = false;
+        this.exists = true;
+        this.world.addShape(this.pshape);
     }
 });
