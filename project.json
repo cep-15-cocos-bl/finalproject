@@ -15,6 +15,7 @@
         "src/app.js",
         "src/buttonLayer.js",
         "src/Player.js",
-        "src/crumblingPlatform.js"
+        "src/crumblingPlatform.js",
+        "src/collision.js"
     ]
 }

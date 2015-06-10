@@ -1,19 +1,31 @@
 var world;
 
+var crumblingPlatforms = [];
+
 var scene01 = cc.Scene.extend({
 
     platforms: [],
     btnLayer: null,
     player: null,
     graveyard: [],
-    crumblingPlatforms: [],
 
     onEnter: function() {
         this._super();
         winSize = cc.director.getWinSize();
 
         world = new cp.Space();
-        world.gravity = cp.v(0, 100);
+        world.gravity = cp.v(0, -100);
+        world.gravityDown = true;
+        world.invertGravity = function() {
+            if(world.gravityDown) {
+                world.gravityDown = false;
+                world.gravity = cp.v(0, 100);
+            } else {
+                world.gravityDown = true;
+                world.gravity = cp.v(0, -100);
+            }
+        }
+
         var debugDraw = cc.PhysicsDebugNode.create(world);
         debugDraw.setVisible(true);
         this.addChild(debugDraw);
@@ -64,16 +76,16 @@ var scene01 = cc.Scene.extend({
 
         for(var i = 0; i < 6; i++) {
             this.platforms[i + 11] = new CrumblingPlatformClass(this, world, i * 40 + 180, 565);
-            this.crumblingPlatforms.push(this.platforms[i + 11]);
+            crumblingPlatforms.push(this.platforms[i + 11]);
         }
 
         this.platforms[17] = new CrumblingPlatformClass(this, world, 120, 90);
-        this.crumblingPlatforms.push(this.platforms[17]);
+        crumblingPlatforms.push(this.platforms[17]);
 
         for(var i = 0; i < 2; i++) {
             for(var j = 0; j < 10; j++) {
                 this.platforms[i * 10 + j + 18] = new CrumblingPlatformClass(this, world, j * 40 + 120, i * 10 + 295);
-                this.crumblingPlatforms.push(this.platforms[i * 10 + j + 18]);
+                crumblingPlatforms.push(this.platforms[i * 10 + j + 18]);
             }
         }
 
@@ -130,8 +142,12 @@ var scene01 = cc.Scene.extend({
         );
 
         this.createPlatform(
-            31, Infinity, Infinity, 380, 365, ["box", 160, 10], 0, 0, "ground"
-        );        
+            51, Infinity, Infinity, 380, 365, ["box", 160, 10], 0, 0, "ground"
+        );
+
+        this.createPlatform(
+            52, Infinity, Infinity, 520, 225, ["box", 160, 10], 0, 0, "spike"
+        );
 
         this.btnLayer = new buttonLayer();
         this.addChild(this.btnLayer);
@@ -140,10 +156,10 @@ var scene01 = cc.Scene.extend({
 
         world.env = this;
         world.setDefaultCollisionHandler(
-            this.beginCollision,
-            this.preCollision,
-            this.postCollision,
-            null
+            collisionHandler.beginCollision,
+            collisionHandler.preCollision,
+            collisionHandler.postCollision,
+            collisionHandler.endCollision
         );
 
         this.scheduleUpdate();
@@ -175,38 +191,12 @@ var scene01 = cc.Scene.extend({
         this.platforms["plat" + id] = platShape;
     },
 
-    beginCollision: function(arbiter, space) {
-        if(arbiter.a.collision_type == arbiter.b.collision_type) {
-            return false;
-        } else if(arbiter.a.collision_type == "ground" && arbiter.b.collision_type == "spike" || 
-            arbiter.b.collision_type == "ground" && arbiter.a.collision_type == "spike") {
-            return false;
-        } else if(arbiter.a.collision_type == "ground" && arbiter.b.collision_type == "crumbling" || 
-            arbiter.b.collision_type == "ground" && arbiter.a.collision_type == "crumbling") {
-            return false;
-        }
-
-        return true;
-    },
-
-    preCollision: function(arbiter, space) {
-        return true;
-    },
-
-    postCollision: function(arbiter, space) {
-        if(arbiter.a.collision_type == "crumbling" && arbiter.b.collision_type == "player") {
-            this.crumblingPlatforms[arbiter.a.crumblingId].decaying = true;
-        } else if(arbiter.b.collision_type == "crumbling" && arbiter.a.collision_type == "player") {
-            this.crumblingPlatforms[arbiter.b.crumblingId].decaying = true;
-        }
-    },
-
     update: function(dt) {
         world.step(dt);
 
-        for(var i = 0; i < this.crumblingPlatforms.length; i++) {
-            if(this.crumblingPlatforms[i].decaying) {
-                this.crumblingPlatforms[i].advanceDecay(dt);
+        for(var i = 0; i < crumblingPlatforms.length; i++) {
+            if(crumblingPlatforms[i].decaying) {
+                crumblingPlatforms[i].advanceDecay(dt);
             }
         }
     }
