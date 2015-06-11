@@ -177,6 +177,8 @@ var scene01 = cc.Scene.extend({
 
         cc.eventManager.addListener(listener, this);
 
+        //console.log(crumblingPlatforms[17]);
+
         this.scheduleUpdate();
     },
 
@@ -207,17 +209,15 @@ var scene01 = cc.Scene.extend({
     },
 
     update: function(dt) {
-        console.log("update");
         world.step(dt);
         player.shape.image.x = player.pbody.p.x;
     player.shape.image.y = player.pbody.p.y;
 
         for(var i = 0; i < crumblingPlatforms.length; i++) {
-            if(crumblingPlatforms[i].decaying) {
+            if(crumblingPlatforms[i].pshape.decaying) {
                 crumblingPlatforms[i].advanceDecay(dt);
             }
         }
     }
 
 });
-tou
