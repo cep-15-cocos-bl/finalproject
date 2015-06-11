@@ -15,8 +15,8 @@ var scene01 = cc.Scene.extend({
         winSize = cc.director.getWinSize();
 
         world = new cp.Space();
-        world.gravity = cp.v(0, -100);
-        world.gravityDown = true;
+        world.gravity = cp.v(0, 100);
+        world.gravityDown = false;
         world.invertGravity = function() {
             if(world.gravityDown) {
                 world.gravityDown = false;
@@ -96,10 +96,6 @@ var scene01 = cc.Scene.extend({
 
         this.createPlatform(
             39, Infinity, Infinity, 380, 420, ["box", 160, 100], 0, 0, "ground"
-        );
-
-        this.createPlatform(
-            40, Infinity, Infinity, 325, 585, ["box", 350, 10], 0, 0, "spike"
         );
 
         this.createPlatform(
@@ -237,12 +233,11 @@ var scene01 = cc.Scene.extend({
             } else if(this.graveyard[i].collision_type == "player") {
                 this.statLayer.useLife();
                 if(--this.statLayer.lives > 0) {
-                    player.die();
                     for(var i = 0; i < crumblingPlatforms.length ;i++) {
                         crumblingPlatforms[i].reset();
                     }
                 } else {
-                    this.statLayer.lives = 5;
+                    player.die();
                 }
             }
 

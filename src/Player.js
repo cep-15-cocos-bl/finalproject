@@ -114,6 +114,6 @@ walk:function(x, y){
  },
 
  die: function() {
-  console.log("die");
+  
  }
  });
