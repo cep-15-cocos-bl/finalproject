@@ -3,6 +3,7 @@ var PlayerClass  = cc.Sprite.extend({
   world:null,
   pbody:null,
   shape:null,
+  type:"player",
   playerSprite:null,
   walkLAction:null,
   walkRAction:null,
@@ -74,12 +75,11 @@ playerSprite = new cc.Sprite.create(spriteImage);
      this.pbody = new cp.Body(1,Infinity);
      this.pbody.setPos(cp.v(posX,posY));
      world.addBody(this.pbody);
-     this.shape = new cp.BoxShape(this.pbody, width, height);
+     this.shape = world.addShape(new cp.BoxShape(this.pbody, width, height));
      this.shape.setFriction(1);
      this.shape.setElasticity(0);
      this.shape.image = playerSprite;
      this.shape.setCollisionType("player");
-     world.addShape(this.shape);
 },
 
 walk:function(x, y){
@@ -111,5 +111,9 @@ walk:function(x, y){
         } else {
         }
   
- }   
-})
+ },
+
+ die: function() {
+  console.log("die");
+ }
+ });

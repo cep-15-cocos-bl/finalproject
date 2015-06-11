@@ -181,6 +181,8 @@ var scene01 = cc.Scene.extend({
 
         cc.eventManager.addListener(listener, this);
 
+        console.log(player);
+
         this.statLayer = new StatusLayer();
         this.addChild(this.statLayer);
 
@@ -227,10 +229,21 @@ var scene01 = cc.Scene.extend({
         }
 
         for(var i = 0; i < this.graveyard.length; i++) {
-            if(this.graveyard[i].type == "trinket") {
+
+            console.log(this.graveyard[i].collision_type);
+
+            if(this.graveyard[i].collision_type == "trinket") {
                 trinkets[this.graveyard[i].id].die();
-            } else if(this.graveyard[i].type == "player") {
-                this.player.die();
+            } else if(this.graveyard[i].collision_type == "player") {
+                this.statLayer.useLife();
+                if(--this.statLayer.lives > 0) {
+                    player.die();
+                    for(var i = 0; i < crumblingPlatforms.length ;i++) {
+                        crumblingPlatforms[i].reset();
+                    }
+                } else {
+                    this.statLayer.lives = 5;
+                }
             }
 
             this.graveyard.splice(i, 1);
