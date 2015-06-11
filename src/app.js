@@ -152,7 +152,7 @@ var scene01 = cc.Scene.extend({
         this.btnLayer = new buttonLayer();
         this.addChild(this.btnLayer);
 
-        this.player = new PlayerClass(this, world, 40, 540, 10, 20, false, res.player_png);
+        player = new PlayerClass(this, world, 40, 540, 10, 20, false, res.player_png);
 
         world.env = this;
         world.setDefaultCollisionHandler(
@@ -161,6 +161,21 @@ var scene01 = cc.Scene.extend({
             collisionHandler.postCollision,
             collisionHandler.endCollision
         );
+        var listener = cc.EventListener.create({
+            event: cc.EventListener.TOUCH_ONE_BY_ONE,
+            swallowTouches: true,
+            onTouchBegan: function (touch, event) {
+                var target = event.getCurrentTarget();
+                var location = target.convertToNodeSpace(touch.getLocation());
+                var targetSize = target.getContentSize();
+                var targetRectangle = cc.rect(0, 0, targetSize.width, targetSize.height);
+                if (cc.rectContainsPoint(targetRectangle, location)) {
+                    player.walk(touch.getLocationX(), touch.getLocationY());
+                }
+            }
+        });
+
+        cc.eventManager.addListener(listener, this);
 
         this.scheduleUpdate();
     },
@@ -192,7 +207,10 @@ var scene01 = cc.Scene.extend({
     },
 
     update: function(dt) {
+        console.log("update");
         world.step(dt);
+        player.shape.image.x = player.pbody.p.x;
+    player.shape.image.y = player.pbody.p.y;
 
         for(var i = 0; i < crumblingPlatforms.length; i++) {
             if(crumblingPlatforms[i].decaying) {
@@ -202,3 +220,4 @@ var scene01 = cc.Scene.extend({
     }
 
 });
+tou
