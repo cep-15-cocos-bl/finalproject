@@ -15,6 +15,12 @@ var collisionHandler = {
         } else if(arbiter.a.collision_type == "trinket" && arbiter.b.collision_type != "player" ||
             arbiter.b.collision_type == "trinket" && arbiter.a.collision_type != "player") {
             return false;
+        } else if(arbiter.a.collision_type == "ground" && arbiter.b.collision_type == "player" ||
+            arbiter.b.collision_type == "ground" && arbiter.a.collision_type == "player") {
+
+            // enable flipping
+
+            return true;
         }
 
         return true;
@@ -41,6 +47,12 @@ var collisionHandler = {
         }
     },
 
-    endCollision: null
+    endCollision: function(arbiter, space) {
+        if(arbiter.a.collision_type == "ground" && arbiter.b.collision_type == "player" ||
+            arbiter.b.collision_type == "ground" && arbiter.a.collision_type == "player") {
+
+            // disable flipping
+        }
+    }
 
 };
