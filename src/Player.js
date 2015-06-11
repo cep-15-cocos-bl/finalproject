@@ -91,15 +91,23 @@ walk:function(x, y){
   if(x < this.pbody.getPos().x && y < this.pbody.getPos().y) { // left, forward
             playerSprite.runAction(this.WLwalkAction);
             console.log("left");
+            this.pbody.applyImpulse(cp.v(-60, 0), cp.v(0, 0));
+            world.gravity = cp.v(0, -100);
         } else if(x < this.pbody.getPos().x  && y >= this.pbody.getPos().y ) { // left, upward
             playerSprite.runAction(this.UWLwalkAction);
             console.log("Uleft");
+            this.pbody.applyImpulse(cp.v(-60, 0), cp.v(0, 0));
+            world.gravity = cp.v(0, 100);
 
         } else if(x > this.pbody.getPos().x && y < this.pbody.getPos().y ) { // right, forward
             playerSprite.runAction(this.WRwalkAction);
+            this.pbody.applyImpulse(cp.v(60, 0), cp.v(0, 0));
+            world.gravity = cp.v(0, -100);
             console.log("right");
         } else if(x > this.pbody.getPos().x  && y >= this.pbody.getPos().y ) { // right, upward
             playerSprite.runAction(this.UWRwalkAction);
+            this.pbody.applyImpulse(cp.v(60, 0), cp.v(0, 0));
+            world.gravity = cp.v(0, 100);
             console.log("Uright");
 
         } else {
