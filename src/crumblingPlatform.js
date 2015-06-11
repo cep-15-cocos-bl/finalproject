@@ -35,11 +35,9 @@ var CrumblingPlatformClass = cc.Sprite.extend({
         }
 
         this.pshape.decaying = true;
-        console.log(this.lifespan + ", " + dt);
 
         if(this.lifespan < dt) {
             // process death
-            console.log("processing death");
             this.exists = false;
             this.world.removeShape(this.pshape);
 

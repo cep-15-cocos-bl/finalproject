@@ -6,6 +6,7 @@ var scene01 = cc.Scene.extend({
 
     platforms: [],
     btnLayer: null,
+    statLayer: null,
     player: null,
     graveyard: [],
 
@@ -149,6 +150,9 @@ var scene01 = cc.Scene.extend({
             52, Infinity, Infinity, 520, 225, ["box", 160, 10], 0, 0, "spike"
         );
 
+        trinkets[0] = new TrinketClass(this, world, 335, 535, 0);
+        trinkets[1] = new TrinketClass(this, world, 120, 120, 1);
+
         this.btnLayer = new buttonLayer();
         this.addChild(this.btnLayer);
 
@@ -176,6 +180,9 @@ var scene01 = cc.Scene.extend({
         });
 
         cc.eventManager.addListener(listener, this);
+
+        this.statLayer = new StatusLayer();
+        this.addChild(this.statLayer);
 
         //console.log(crumblingPlatforms[17]);
 
@@ -211,13 +218,27 @@ var scene01 = cc.Scene.extend({
     update: function(dt) {
         world.step(dt);
         player.shape.image.x = player.pbody.p.x;
-    player.shape.image.y = player.pbody.p.y;
+            player.shape.image.y = player.pbody.p.y;
 
         for(var i = 0; i < crumblingPlatforms.length; i++) {
             if(crumblingPlatforms[i].pshape.decaying) {
                 crumblingPlatforms[i].advanceDecay(dt);
             }
         }
+
+        for(var i = 0; i < this.graveyard.length; i++) {
+            if(this.graveyard[i].type == "trinket") {
+                trinkets[this.graveyard[i].id].die();
+            } else if(this.graveyard[i].type == "player") {
+                this.player.die();
+            }
+
+            this.graveyard.splice(i, 1);
+        }
+    },
+
+    addScore: function() {
+        this.statLayer.addScore();
     }
 
 });

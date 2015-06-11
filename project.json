@@ -16,6 +16,8 @@
         "src/buttonLayer.js",
         "src/Player.js",
         "src/crumblingPlatform.js",
-        "src/collision.js"
+        "src/collision.js",
+        "src/token.js",
+        "src/statLayer.js"
     ]
 }
