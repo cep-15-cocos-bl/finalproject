@@ -12,7 +12,14 @@ var res = {
     UwalkR_png:"res/UwalkR.png",
     UwalkR_plist:"res/UwalkR.plist",
     leftbutton_png: "res/leftbutton.png",
-    rightbutton_png: "res/rightbutton.png"
+    rightbutton_png: "res/rightbutton.png",
+    Cplatform_png: "res/Cplatform.png",
+    Cplatform_plist: "res/Cplatform.plist",
+    platform_png: "res/platform.png",
+    background1_png: "res/background1.png",
+    background2_png: "res/background2.png",
+    start_n_png : "res/start_n.png",
+        start_s_png : "res/start_s.png"
 };
 
 var g_resources = [];

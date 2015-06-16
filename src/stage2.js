@@ -1,13 +1,15 @@
 var world;
 
-var scene01 = cc.Scene.extend({
+var stage2 = cc.Scene.extend({
 
     platforms: [],
 
     onEnter: function() {
         this._super();
         winSize = cc.director.getWinSize();
-
+        var background = new Backgroundlayer2();
+        this.addChild(background);
+        background.setPosition(400 ,winSize.height/2);
         world = new cp.Space();
         world.gravity = cp.v(0, -100);
         var debugDraw = cc.PhysicsDebugNode.create(world);
@@ -91,3 +93,10 @@ var scene01 = cc.Scene.extend({
     }
 
 });
+
+var Backgroundlayer2  = cc.Sprite.extend({
+  ctor:function() {
+    this._super();
+    this.initWithFile(res.background2_png);
+  }
+})
