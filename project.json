@@ -16,6 +16,7 @@
         "src/buttonLayer.js",
         "src/Player.js",
         "src/crumblingPlatform.js",
+        "src/token.js",
         "src/collision.js",
         "src/stage2.js",
         "src/stage3.js",

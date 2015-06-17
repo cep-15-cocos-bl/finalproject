@@ -9,10 +9,12 @@ var move = 0;
 var flipped = false;
 var grav = -100;
 var moved = false;
+var trinkets = [];
 var gameScene = cc.Scene.extend({
 
     platforms: [],
     btnLayer: null,
+    statLayer: null,
     player: null,
     graveyard: [],
 
@@ -159,6 +161,9 @@ var gameScene = cc.Scene.extend({
             52, Infinity, Infinity, 520, 225, ["box", 160, 10], 0, 0, "spike"
         );
 
+        trinkets[0] = new TrinketClass(this, world, 335, 535, 0);
+        trinkets[1] = new TrinketClass(this, world, 120, 120, 1);
+
         this.btnLayer = new buttonLayer();
         this.addChild(this.btnLayer);
 
@@ -178,21 +183,21 @@ var gameScene = cc.Scene.extend({
   swallowTouches: true,
   
   onTouchBegan: function (touch, event) { 
-    console.log("pressed");
+    //console.log("pressed");
                 var target = event.getCurrentTarget();
                 var location = target.convertToNodeSpace(touch.getLocation());
                 var targetSize = target.getContentSize();
                 var targetRectangle = cc.rect(0, 0, targetSize.width, targetSize.height);
                 curplayerx = player.shape.image.x;
             if(70<touch.getLocationX() && touch.getLocationX()<110 && 10<touch.getLocationY() && touch.getLocationY()<50 && moving == false){
-                console.log("moving");
+                //console.log("moving");
             player.moveright(60, flipped);
             moving = true;
             dir = 2; //RIGHT
             move = 60;
         }
         else if(10<touch.getLocationX() && touch.getLocationX()<50 && 10<touch.getLocationY() && touch.getLocationY()<50 && moving == false){
-            console.log("moving left");
+            //console.log("moving left");
             player.moveleft(-60, flipped);
             moving = true;
             dir = 1; //LEFT
@@ -200,7 +205,7 @@ var gameScene = cc.Scene.extend({
         }
             a = 0;
                             if(touch.getLocationX()>400){
-            console.log("flipping");
+            //console.log("flipping");
             if(flipped == true){
                 flipped = false;
             }
@@ -225,7 +230,7 @@ var gameScene = cc.Scene.extend({
         //Trigger when moving touch  
         //Process the touch end event
         onTouchEnded: function (touch, event) {  
-            console.log(touch.getLocationX(), touch.getLocationY());
+            //console.log(touch.getLocationX(), touch.getLocationY());
             playerx = player.shape.image.x;
         if(moving == true){      
         player.stop(move);
@@ -240,6 +245,8 @@ var gameScene = cc.Scene.extend({
         cc.eventManager.addListener(listener, this);
 
         //console.log(crumblingPlatforms[17]);
+        this.statLayer = new StatusLayer();
+        this.addChild(this.statLayer);
 
         this.scheduleUpdate();
     },
@@ -276,7 +283,7 @@ var gameScene = cc.Scene.extend({
         var bigger = Math.max(curplayerx, prevplayerx);
         var smaller = Math.min(curplayerx, prevplayerx);
         if(bigger - smaller <0.5){
-            console.log("not moving")
+            //console.log("not moving")
             moving = false;
         }
         player.shape.image.x = player.pbody.p.x;

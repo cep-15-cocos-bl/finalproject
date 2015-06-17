@@ -112,10 +112,10 @@ walk:function(x, y){
   
  },
  stop:function(mov){
-  console.log(move);
+  //console.log(move);
   this.pbody.applyImpulse(cp.v(move*-1, 0), cp.v(0, 0));
   playerSprite.stopAllActions();
-  console.log("Stop");
+  //console.log("Stop");
  },
  moveright:function(a, b){
   this.pbody.applyImpulse(cp.v(60, 0), cp.v(0, 0));

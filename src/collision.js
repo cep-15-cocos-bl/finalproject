@@ -12,12 +12,29 @@ var collisionHandler = {
         } else if(arbiter.a.collision_type == "ground" && arbiter.b.collision_type == "gravline" ||
             arbiter.b.collision_type == "ground" && arbiter.a.collision_type == "gravline") {
             return false;
-        }
+        } else if(arbiter.a.collision_type == "trinket" && arbiter.b.collision_type != "player" ||
+            arbiter.b.collision_type == "trinket" && arbiter.a.collision_type != "player") {
+            return false;
+        } else if(arbiter.a.collision_type == "ground" && arbiter.b.collision_type == "player" ||
+            arbiter.b.collision_type == "ground" && arbiter.a.collision_type == "player") {
 
+            // enable flipping
+
+            return true;
+        }
         return true;
     },
 
     preCollision: function(arbiter, space) {
+        if(arbiter.a.collision_type == "player" && arbiter.b.collision_type == "trinket") {
+            space.env.graveyard.push(arbiter.b);
+        } else if(arbiter.b.collision_type == "player" && arbiter.a.collision_type == "trinket") {
+            space.env.graveyard.push(arbiter.a);
+        } else if(arbiter.a.collision_type == "player" && (arbiter.b.collision_type == "spike" || arbiter.b.collision_type == "enemy")) {
+            space.env.graveyard.push(arbiter.a);
+        } else if(arbiter.b.collision_type == "player" && (arbiter.a.collision_type == "spike" || arbiter.a.collision_type == "enemy")) {
+            space.env.graveyard.push(arbiter.b);
+        }
         return true;
     },
 
@@ -32,6 +49,11 @@ var collisionHandler = {
         }
     },
 
-    endCollision: null
+    endCollision: function(arbiter, space) {
+        if(arbiter.a.collision_type == "ground" && arbiter.b.collision_type == "player" ||
+            arbiter.b.collision_type == "ground" && arbiter.a.collision_type == "player") {
 
+            // disable flipping
+        }
+    }
 };

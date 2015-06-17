@@ -23,7 +23,7 @@ var CrumblingPlatformClass = cc.Sprite.extend({
         this.pshape = this.world.addShape(new cp.BoxShape(this.pbody, 40, 10));
         this.pshape.setElasticity(0);
         this.pshape.setFriction(0.0);
-        console.log("apple");
+        //console.log("apple");
         this.pshape.crumblingId = crumblingNextId;
         this.pshape.setCollisionType("crumbling");
         this.pshape.decaying = false;
@@ -57,13 +57,13 @@ var CrumblingPlatformClass = cc.Sprite.extend({
         }
 
         this.pshape.decaying = true;
-        console.log(this.lifespan + ", " + dt);
+        //console.log(this.lifespan + ", " + dt);
 
         if(this.lifespan < dt) {
             // process death
             this.CSprite.runAction(this.CAction);
         this.spriteSheet.addChild(this.CSprite);
-            console.log("processing death");
+            //console.log("processing death");
             this.exists = false;
             this.world.removeShape(this.pshape);
             if(dt <0.001){
