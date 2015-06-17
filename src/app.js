@@ -13,6 +13,7 @@ var gameScene = cc.Scene.extend({
 
     platforms: [],
     btnLayer: null,
+    statLayer: null,
     player: null,
     graveyard: [],
 
@@ -158,6 +159,10 @@ var gameScene = cc.Scene.extend({
         this.createPlatform(
             52, Infinity, Infinity, 520, 225, ["box", 160, 10], 0, 0, "spike"
         );
+
+        trinkets[0] = new TrinketClass(this, world, 335, 535, 0);
+        trinkets[1] = new TrinketClass(this, world, 120, 120, 1);
+
 
         this.btnLayer = new buttonLayer();
         this.addChild(this.btnLayer);

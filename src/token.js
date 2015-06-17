@@ -33,7 +33,6 @@ var TrinketClass  = cc.Sprite.extend({
         this.pshape.id = id;
         this.pshape.type = "trinket";
 
-        /*
         cc.spriteFrameCache.addSpriteFrames(res.token_plist);
         this.spriteSheet = new cc.SpriteBatchNode(res.token_png);
         this.addChild(this.spriteSheet);
@@ -56,7 +55,6 @@ var TrinketClass  = cc.Sprite.extend({
         this.tokenSprite.runAction(this.tokenAction);
         this.spriteSheet.addChild(this.tokenSprite);
 
-        */
     },
 
     die: function() {
