@@ -3,6 +3,7 @@ var PlayerClass  = cc.Sprite.extend({
   world:null,
   pbody:null,
   shape:null,
+  type:"player",
   playerSprite:null,
   walkLAction:null,
   walkRAction:null,
@@ -74,15 +75,15 @@ playerSprite = new cc.Sprite.create(spriteImage);
      this.pbody = new cp.Body(1,Infinity);
      this.pbody.setPos(cp.v(posX,posY));
      world.addBody(this.pbody);
-     this.shape = new cp.BoxShape(this.pbody, width, height);
+     this.shape = world.addShape(new cp.BoxShape(this.pbody, width, height));
      this.shape.setFriction(1);
      this.shape.setElasticity(0);
      this.shape.image = playerSprite;
      this.shape.setCollisionType("player");
-     world.addShape(this.shape);
 },
 
 walk:function(x, y){
+  console.log(x,y);
   playerSprite.stopAllActions();
   //prototype.velocity_func.call(pbody, 100, 10, dt); 
   var curPosX = this.pbody.getPos().x;
@@ -111,54 +112,8 @@ walk:function(x, y){
         }
   
  },
- stop:function(mov){
-  console.log(move);
-  this.pbody.applyImpulse(cp.v(move*-1, 0), cp.v(0, 0));
-  playerSprite.stopAllActions();
-  console.log("Stop");
- },
- moveright:function(a, b){
-  this.pbody.applyImpulse(cp.v(60, 0), cp.v(0, 0));
-  if(b == false){
-  playerSprite.stopAllActions();
-  playerSprite.runAction(this.WRwalkAction);
-}
-else{
-  console.log("upside down right");
-  this.stopAllActions();
-  playerSprite.runAction(this.UWRwalkAction);
-  this.pbody.applyImpulse(cp.v(0, 0), cp.v(0, 0));
-  console.log(a);
-}
- },
- moveleft:function(a, b){
-  if(b == false){
-  this.pbody.applyImpulse(cp.v(-60, 0), cp.v(0, 0));
-  playerSprite.stopAllActions();
-  playerSprite.runAction(this.WLwalkAction);
-  console.log("walking left");
-}
-else{
-  console.log("upside down left");
-  this.stopAllActions();
-  playerSprite.runAction(this.UWLwalkAction);
-  this.pbody.applyImpulse(cp.v(-60, 0), cp.v(0, 0));
-  console.log(a);
-}
- },
- flip:function(dir){
-  playerSprite.stopAllActions();
-  if(dir == 1){
-    playerSprite.runAction(this.UWLwalkAction);
-  }
-  else if(dir == 2){
-    playerSprite.runAction(this.UWRwalkAction);
-  }
-  else if(dir == 4){
-    playerSprite.runAction(this.WRwalkAction);
+
+ die: function() {
+  
  }
- else{
-  playerSprite.runAction(this.WLwalkAction);
- }
-}
-})
+ });

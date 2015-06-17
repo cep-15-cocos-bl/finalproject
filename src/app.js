@@ -1,15 +1,8 @@
 var world;
-var a = 60;
-var moving = false;
+
 var crumblingPlatforms = [];
-var prevplayerx = 0;
-var curplayerx = 0;
-var dir = 1;
-var move = 0;
-var flipped = false;
-var grav = -100;
-var moved = false;
-var gameScene = cc.Scene.extend({
+
+var scene01 = cc.Scene.extend({
 
     platforms: [],
     btnLayer: null,
@@ -20,20 +13,17 @@ var gameScene = cc.Scene.extend({
     onEnter: function() {
         this._super();
         winSize = cc.director.getWinSize();
-        var background = new Backgroundlayer();
-        this.addChild(background);
-        background.setPosition(400 ,winSize.height/2);
 
         world = new cp.Space();
-        world.gravity = cp.v(0, -100);
-        world.gravityDown = true;
+        world.gravity = cp.v(0, 100);
+        world.gravityDown = false;
         world.invertGravity = function() {
             if(world.gravityDown) {
                 world.gravityDown = false;
                 world.gravity = cp.v(0, 100);
             } else {
                 world.gravityDown = true;
-                world.gravity = cp.v(0, grav);
+                world.gravity = cp.v(0, -100);
             }
         }
 
@@ -86,16 +76,16 @@ var gameScene = cc.Scene.extend({
         );
 
         for(var i = 0; i < 6; i++) {
-            this.platforms[i + 11] = new CrumblingPlatformClass(this, world, i * 40 + 180, 565, res.platform_png);
+            this.platforms[i + 11] = new CrumblingPlatformClass(this, world, i * 40 + 180, 565);
             crumblingPlatforms.push(this.platforms[i + 11]);
         }
 
-        this.platforms[17] = new CrumblingPlatformClass(this, world, 120, 90, res.platform_png);
+        this.platforms[17] = new CrumblingPlatformClass(this, world, 120, 90);
         crumblingPlatforms.push(this.platforms[17]);
 
         for(var i = 0; i < 2; i++) {
             for(var j = 0; j < 10; j++) {
-                this.platforms[i * 10 + j + 18] = new CrumblingPlatformClass(this, world, j * 40 + 120, i * 10 + 295, res.platform_png);
+                this.platforms[i * 10 + j + 18] = new CrumblingPlatformClass(this, world, j * 40 + 120, i * 10 + 295);
                 crumblingPlatforms.push(this.platforms[i * 10 + j + 18]);
             }
         }
@@ -106,10 +96,6 @@ var gameScene = cc.Scene.extend({
 
         this.createPlatform(
             39, Infinity, Infinity, 380, 420, ["box", 160, 100], 0, 0, "ground"
-        );
-
-        this.createPlatform(
-            40, Infinity, Infinity, 325, 585, ["box", 350, 10], 0, 0, "spike"
         );
 
         this.createPlatform(
@@ -163,13 +149,10 @@ var gameScene = cc.Scene.extend({
         trinkets[0] = new TrinketClass(this, world, 335, 535, 0);
         trinkets[1] = new TrinketClass(this, world, 120, 120, 1);
 
-
         this.btnLayer = new buttonLayer();
         this.addChild(this.btnLayer);
 
         player = new PlayerClass(this, world, 40, 540, 10, 20, false, res.player_png);
-        curplayerx = player.pbody.p.x;
-        prevplayerx = player.pbody.p.x;
 
         world.env = this;
         world.setDefaultCollisionHandler(
@@ -179,67 +162,25 @@ var gameScene = cc.Scene.extend({
             collisionHandler.endCollision
         );
         var listener = cc.EventListener.create({
-  event: cc.EventListener.TOUCH_ONE_BY_ONE,
-  swallowTouches: true,
-  
-  onTouchBegan: function (touch, event) { 
-    console.log("pressed");
+            event: cc.EventListener.TOUCH_ONE_BY_ONE,
+            swallowTouches: true,
+            onTouchBegan: function (touch, event) {
                 var target = event.getCurrentTarget();
                 var location = target.convertToNodeSpace(touch.getLocation());
                 var targetSize = target.getContentSize();
                 var targetRectangle = cc.rect(0, 0, targetSize.width, targetSize.height);
-                curplayerx = player.shape.image.x;
-            if(70<touch.getLocationX() && touch.getLocationX()<110 && 10<touch.getLocationY() && touch.getLocationY()<50 && moving == false){
-                console.log("moving");
-            player.moveright(60, flipped);
-            moving = true;
-            dir = 2; //RIGHT
-            move = 60;
-        }
-        else if(10<touch.getLocationX() && touch.getLocationX()<50 && 10<touch.getLocationY() && touch.getLocationY()<50 && moving == false){
-            console.log("moving left");
-            player.moveleft(-60, flipped);
-            moving = true;
-            dir = 1; //LEFT
-            move = -60;
-        }
-            a = 0;
-                            if(touch.getLocationX()>400){
-            console.log("flipping");
-            if(flipped == true){
-                flipped = false;
-                dir = dir+2;
+                if (cc.rectContainsPoint(targetRectangle, location)) {
+                    player.walk(touch.getLocationX(), touch.getLocationY());
+                }
             }
-            else{
-            flipped = true;
-        }
-            player.flip(dir);
-            a = 60;
-            grav = grav*-1;
-            world.gravity = cp.v(0, grav);
-    }
-                    return true;
-                console.log("Start");
-                moving = false;
-                dir = 0;
-            
-        },
-        //Trigger when moving touch  
-        //Process the touch end event
-        onTouchEnded: function (touch, event) {  
-            console.log(touch.getLocationX(), touch.getLocationY());
-            playerx = player.shape.image.x;
-        if(moving == true){      
-        player.stop(move);
-        a = 60;
-        moving = false;
-    }   
-
-           
-        }
-})
+        });
 
         cc.eventManager.addListener(listener, this);
+
+        console.log(player);
+
+        this.statLayer = new StatusLayer();
+        this.addChild(this.statLayer);
 
         //console.log(crumblingPlatforms[17]);
 
@@ -263,8 +204,8 @@ var gameScene = cc.Scene.extend({
         }
 
         platShape = world.addShape(platShape);
-        platShape.setFriction(0);
-        platShape.setElasticity(0);
+        platShape.setFriction(friction);
+        platShape.setElasticity(elasticity);
         platShape.setCollisionType(type);
         platShape.name = "platform" + id;
         platShape.exists = true;
@@ -274,29 +215,38 @@ var gameScene = cc.Scene.extend({
 
     update: function(dt) {
         world.step(dt);
-        curplayerx = player.pbody.p.x;
-        var bigger = Math.max(curplayerx, prevplayerx);
-        var smaller = Math.min(curplayerx, prevplayerx);
-        if(bigger - smaller <0.5){
-            console.log("not moving")
-            moving = false;
-        }
         player.shape.image.x = player.pbody.p.x;
-    player.shape.image.y = player.pbody.p.y;
+            player.shape.image.y = player.pbody.p.y;
 
         for(var i = 0; i < crumblingPlatforms.length; i++) {
             if(crumblingPlatforms[i].pshape.decaying) {
                 crumblingPlatforms[i].advanceDecay(dt);
             }
         }
-        prevplayerx = curplayerx;
+
+        for(var i = 0; i < this.graveyard.length; i++) {
+
+            console.log(this.graveyard[i].collision_type);
+
+            if(this.graveyard[i].collision_type == "trinket") {
+                trinkets[this.graveyard[i].id].die();
+            } else if(this.graveyard[i].collision_type == "player") {
+                this.statLayer.useLife();
+                if(--this.statLayer.lives > 0) {
+                    for(var i = 0; i < crumblingPlatforms.length ;i++) {
+                        crumblingPlatforms[i].reset();
+                    }
+                } else {
+                    player.die();
+                }
+            }
+
+            this.graveyard.splice(i, 1);
+        }
     },
 
-})
+    addScore: function() {
+        this.statLayer.addScore();
+    }
 
-var Backgroundlayer  = cc.Sprite.extend({
-  ctor:function() {
-    this._super();
-    this.initWithFile(res.background1_png);
-  }
-})
+});
