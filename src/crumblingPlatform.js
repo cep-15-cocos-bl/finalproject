@@ -31,7 +31,7 @@ var CrumblingPlatformClass = cc.Sprite.extend({
         this.spriteSheet = new cc.SpriteBatchNode(res.Cplatform_png);
         this.addChild(this.spriteSheet);
         var tokenFrames = [];
-        for (var i = 1; i < 4; i++) {
+        for (var i = 1; i < 5; i++) {
           var str = "Cplatform" + i + ".png";
           var frame = cc.spriteFrameCache.getSpriteFrame(str);
           CFrames.push(frame);
