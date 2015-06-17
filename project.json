@@ -17,7 +17,9 @@
         "src/Player.js",
         "src/crumblingPlatform.js",
         "src/collision.js",
-        "src/token.js",
-        "src/statLayer.js"
+        "src/stage2.js",
+        "src/stage3.js",
+        "src/introScene.js",
+        "src/endScene.js"
     ]
 }
