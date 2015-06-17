@@ -149,16 +149,16 @@ else{
  flip:function(dir){
   playerSprite.stopAllActions();
   if(dir == 1){
-    playerSprite.runAction(this.UWLwalkAction);
+    playerSprite.runAction(this.WLwalkAction);
   }
   else if(dir == 2){
-    playerSprite.runAction(this.UWRwalkAction);
+    playerSprite.runAction(this.WRwalkAction);
   }
   else if(dir == 4){
-    playerSprite.runAction(this.WRwalkAction);
+    playerSprite.runAction(this.UWRwalkAction);
  }
  else{
-  playerSprite.runAction(this.WLwalkAction);
+  playerSprite.runAction(this.UWLwalkAction);
  }
 }
 })

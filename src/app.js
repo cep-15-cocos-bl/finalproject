@@ -4,7 +4,7 @@ var moving = false;
 var crumblingPlatforms = [];
 var prevplayerx = 0;
 var curplayerx = 0;
-var dir = 1;
+var dir = 2;
 var move = 0;
 var flipped = false;
 var grav = -100;
@@ -203,20 +203,23 @@ var gameScene = cc.Scene.extend({
             console.log("flipping");
             if(flipped == true){
                 flipped = false;
-                dir = dir+2;
             }
             else{
             flipped = true;
+            dir = dir+2;
         }
+        console.log(dir);
             player.flip(dir);
             a = 60;
             grav = grav*-1;
-            world.gravity = cp.v(0, grav);
+            world.gravity = cp.v(0, grav);  
+            if(flipped == true){
+            dir = dir-2;
+        }
     }
                     return true;
                 console.log("Start");
                 moving = false;
-                dir = 0;
             
         },
         //Trigger when moving touch  

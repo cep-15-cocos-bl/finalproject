@@ -20,6 +20,7 @@
         "src/stage2.js",
         "src/stage3.js",
         "src/introScene.js",
-        "src/endScene.js"
+        "src/endScene.js",
+        "src/statLayer.js"
     ]
 }
