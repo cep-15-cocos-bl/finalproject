@@ -27,8 +27,10 @@ var collisionHandler = {
 
     preCollision: function(arbiter, space) {
         if(arbiter.a.collision_type == "player" && arbiter.b.collision_type == "trinket") {
+            //console.log("pt");
             space.env.graveyard.push(arbiter.b);
         } else if(arbiter.b.collision_type == "player" && arbiter.a.collision_type == "trinket") {
+            //console.log("pt");
             space.env.graveyard.push(arbiter.a);
         } else if(arbiter.a.collision_type == "player" && (arbiter.b.collision_type == "spike" || arbiter.b.collision_type == "enemy")) {
             space.env.graveyard.push(arbiter.a);

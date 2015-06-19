@@ -113,9 +113,9 @@ var gameScene = cc.Scene.extend({
             40, Infinity, Infinity, 325, 585, ["box", 350, 10], 0, 0, "spike"
         );
 
-        this.createPlatform(
+        /*this.createPlatform(
             41, Infinity, Infinity, 130, 515, ["box", 240, 10], 0, 0, "spike"
-        );
+        );*/
 
         this.createPlatform(
             42, Infinity, Infinity, 150, 425, ["box", 200, 10], 0, 0, "spike"
@@ -294,8 +294,31 @@ var gameScene = cc.Scene.extend({
                 crumblingPlatforms[i].advanceDecay(dt);
             }
         }
+        for(var i = 0; i < this.graveyard.length; i++) {
+
+            //console.log(this.graveyard[i].collision_type);
+
+            if(this.graveyard[i].collision_type == "trinket") {
+                trinkets[this.graveyard[i].id].die();
+            } else if(this.graveyard[i].collision_type == "player") {
+                this.statLayer.useLife();
+                /*if(--this.statLayer.lives > 0) {
+                    for(var i = 0; i < crumblingPlatforms.length ;i++) {
+                        crumblingPlatforms[i].reset();
+                    }
+                } else {
+                    player.die();
+                }*/
+            }
+
+            this.graveyard.splice(i, 1);
+        }
         prevplayerx = curplayerx;
     },
+
+    addScore: function() {
+        this.statLayer.addScore();
+    }
 
 })
 
