@@ -1,3 +1,5 @@
+var gs;
+
 /**
  * A brief explanation for "project.json":
  * Here is the content of project.json file, this is the global configuration for your game, you can modify it to customize some behavior.
@@ -52,8 +54,11 @@ cc.game.onStart = function(){
     cc.view.setDesignResolutionSize(800, 600, cc.ResolutionPolicy.SHOW_ALL);
     cc.view.resizeWithBrowserSize(true);
     //load resources
+
+    gs = new gameScene();
+
     cc.LoaderScene.preload(g_resources, function () {
-        cc.director.runScene(new gameScene());
+        cc.director.runScene(gs);
     }, this);
 };
 cc.game.run();

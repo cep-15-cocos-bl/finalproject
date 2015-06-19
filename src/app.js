@@ -10,6 +10,7 @@ var flipped = false;
 var grav = -100;
 var moved = false;
 var trinkets = [];
+var startOrEnd = true;
 var gameScene = cc.Scene.extend({
 
     platforms: [],
@@ -17,9 +18,11 @@ var gameScene = cc.Scene.extend({
     statLayer: null,
     player: null,
     graveyard: [],
+    overLayer: null,
 
     onEnter: function() {
         this._super();
+
         winSize = cc.director.getWinSize();
         var background = new Backgroundlayer();
         this.addChild(background);
@@ -164,12 +167,16 @@ var gameScene = cc.Scene.extend({
         trinkets[0] = new TrinketClass(this, world, 335, 535, 0);
         trinkets[1] = new TrinketClass(this, world, 120, 120, 1);
 
-        this.btnLayer = new buttonLayer();
-        this.addChild(this.btnLayer);
-
         player = new PlayerClass(this, world, 40, 540, 10, 20, false, res.player_png);
         curplayerx = player.pbody.p.x;
         prevplayerx = player.pbody.p.x;
+
+        this.overLayer = new startBackground();
+        this.addChild(this.overLayer);
+        this.overLayer.setPosition(400, 300);
+
+        this.btnLayer = new buttonLayer();
+        this.addChild(this.btnLayer);
 
         world.env = this;
         world.setDefaultCollisionHandler(
@@ -178,6 +185,7 @@ var gameScene = cc.Scene.extend({
             collisionHandler.postCollision,
             collisionHandler.endCollision
         );
+
         var listener = cc.EventListener.create({
   event: cc.EventListener.TOUCH_ONE_BY_ONE,
   swallowTouches: true,
@@ -189,6 +197,12 @@ var gameScene = cc.Scene.extend({
                 var targetSize = target.getContentSize();
                 var targetRectangle = cc.rect(0, 0, targetSize.width, targetSize.height);
                 curplayerx = player.shape.image.x;
+
+                if(startOrEnd) {
+                    startOrEnd = false;
+                    gs.removeOverlay();
+                }
+
             if(70<touch.getLocationX() && touch.getLocationX()<110 && 10<touch.getLocationY() && touch.getLocationY()<50 && moving == false){
                 //console.log("moving");
             player.moveright(60, flipped);
@@ -318,6 +332,11 @@ var gameScene = cc.Scene.extend({
 
     addScore: function() {
         this.statLayer.addScore();
+    },
+
+    removeOverlay: function() {
+        this.removeChild(this.overLayer);
+        this.overLayer = null;
     }
 
 })
