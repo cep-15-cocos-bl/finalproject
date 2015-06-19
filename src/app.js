@@ -153,11 +153,11 @@ var gameScene = cc.Scene.extend({
         );
 
         this.createPlatform(
-            50, Infinity, Infinity, 380, 475, ["box", 160, 10], 0, 0, "ground"
+            50, Infinity, Infinity, 380, 475, ["box", 160, 10], 0, 0, "spike"
         );
 
         this.createPlatform(
-            51, Infinity, Infinity, 380, 365, ["box", 160, 10], 0, 0, "ground"
+            51, Infinity, Infinity, 380, 365, ["box", 160, 10], 0, 0, "spike"
         );
 
         this.createPlatform(
