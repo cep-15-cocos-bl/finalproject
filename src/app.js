@@ -1,5 +1,6 @@
 var world;
 var a = 60;
+var trinketnum = 0;
 var moving = false;
 var crumblingPlatforms = [];
 var prevplayerx = 0;
@@ -7,12 +8,15 @@ var curplayerx = 0;
 var dir = 2;
 var move = 0;
 var flipped = false;
-var grav = -100;
+var grav = -200;
 var moved = false;
+var trinkets = [];
+var flippy = 0;
 var gameScene = cc.Scene.extend({
 
     platforms: [],
     btnLayer: null,
+    statLayer: null,
     player: null,
     graveyard: [],
 
@@ -85,7 +89,7 @@ var gameScene = cc.Scene.extend({
         );
 
         for(var i = 0; i < 6; i++) {
-            this.platforms[i + 11] = new CrumblingPlatformClass(this, world, i * 40 + 180, 565, res.platform_png);
+            this.platforms[i + 11] = new CrumblingPlatformClass(this, world, i * 50 + 200, 565);
             crumblingPlatforms.push(this.platforms[i + 11]);
         }
 
@@ -94,7 +98,7 @@ var gameScene = cc.Scene.extend({
 
         for(var i = 0; i < 2; i++) {
             for(var j = 0; j < 10; j++) {
-                this.platforms[i * 10 + j + 18] = new CrumblingPlatformClass(this, world, j * 40 + 120, i * 10 + 295, res.platform_png);
+                this.platforms[i * 10 + j + 18] = new CrumblingPlatformClass(this, world, j * 50 + 120, i * 10 + 295);
                 crumblingPlatforms.push(this.platforms[i * 10 + j + 18]);
             }
         }
@@ -109,10 +113,6 @@ var gameScene = cc.Scene.extend({
 
         this.createPlatform(
             40, Infinity, Infinity, 325, 585, ["box", 350, 10], 0, 0, "spike"
-        );
-
-        this.createPlatform(
-            41, Infinity, Infinity, 130, 515, ["box", 240, 10], 0, 0, "spike"
         );
 
         this.createPlatform(
@@ -159,6 +159,9 @@ var gameScene = cc.Scene.extend({
             52, Infinity, Infinity, 520, 225, ["box", 160, 10], 0, 0, "spike"
         );
 
+        trinkets[0] = new TrinketClass(this, world, 335, 535, 0);
+        trinkets[1] = new TrinketClass(this, world, 120, 120, 1);
+
         this.btnLayer = new buttonLayer();
         this.addChild(this.btnLayer);
 
@@ -178,29 +181,31 @@ var gameScene = cc.Scene.extend({
   swallowTouches: true,
   
   onTouchBegan: function (touch, event) { 
-    console.log("pressed");
+    //console.log("pressed");
                 var target = event.getCurrentTarget();
                 var location = target.convertToNodeSpace(touch.getLocation());
                 var targetSize = target.getContentSize();
                 var targetRectangle = cc.rect(0, 0, targetSize.width, targetSize.height);
                 curplayerx = player.shape.image.x;
+                console.log(touch.getLocationX());
+                console.log(touch.getLocationY());
             if(70<touch.getLocationX() && touch.getLocationX()<110 && 10<touch.getLocationY() && touch.getLocationY()<50 && moving == false){
-                console.log("moving");
+                //console.log("moving");
             player.moveright(60, flipped);
             moving = true;
             dir = 2; //RIGHT
-            move = 60;
+            move = 100;
         }
         else if(10<touch.getLocationX() && touch.getLocationX()<50 && 10<touch.getLocationY() && touch.getLocationY()<50 && moving == false){
-            console.log("moving left");
+            //console.log("moving left");
             player.moveleft(-60, flipped);
             moving = true;
             dir = 1; //LEFT
-            move = -60;
+            move = -100;
         }
             a = 0;
-                            if(touch.getLocationX()>400){
-            console.log("flipping");
+                            if(touch.getLocationX()>300){
+            //console.log("flipping");
             if(flipped == true){
                 flipped = false;
             }
@@ -216,6 +221,7 @@ var gameScene = cc.Scene.extend({
             if(flipped == true){
             dir = dir-2;
         }
+        canflip = false;
     }
                     return true;
                 console.log("Start");
@@ -224,8 +230,7 @@ var gameScene = cc.Scene.extend({
         },
         //Trigger when moving touch  
         //Process the touch end event
-        onTouchEnded: function (touch, event) {  
-            console.log(touch.getLocationX(), touch.getLocationY());
+        onTouchEnded: function (touch, event) { 
             playerx = player.shape.image.x;
         if(moving == true){      
         player.stop(move);
@@ -240,6 +245,8 @@ var gameScene = cc.Scene.extend({
         cc.eventManager.addListener(listener, this);
 
         //console.log(crumblingPlatforms[17]);
+        this.statLayer = new StatusLayer();
+        this.addChild(this.statLayer);
 
         this.scheduleUpdate();
     },
@@ -271,12 +278,16 @@ var gameScene = cc.Scene.extend({
     },
 
     update: function(dt) {
+        console.log(trinketnum);
         world.step(dt);
         curplayerx = player.pbody.p.x;
+        if(curplayerx > 750 && trinketnum == 2){
+            cc.director.runScene(new stage2());
+        }
         var bigger = Math.max(curplayerx, prevplayerx);
         var smaller = Math.min(curplayerx, prevplayerx);
         if(bigger - smaller <0.5){
-            console.log("not moving")
+            //console.log("not moving")
             moving = false;
         }
         player.shape.image.x = player.pbody.p.x;
@@ -287,8 +298,33 @@ var gameScene = cc.Scene.extend({
                 crumblingPlatforms[i].advanceDecay(dt);
             }
         }
+        for(var i = 0; i < this.graveyard.length; i++) {
+
+            //console.log(this.graveyard[i].collision_type);
+
+            if(this.graveyard[i].collision_type == "trinket") {
+                trinkets[this.graveyard[i].id].die();
+                trinketnum =trinketnum+1;
+            } else if(this.graveyard[i].collision_type == "player") {
+                this.statLayer.useLife();
+                /*if(--this.statLayer.lives > 0) {
+                    for(var i = 0; i < crumblingPlatforms.length ;i++) {
+                        crumblingPlatforms[i].reset();
+                    }
+                } else {
+                    player.die();
+                }*/
+            }
+
+            this.graveyard.splice(i, 1);
+        }
         prevplayerx = curplayerx;
     },
+
+    addScore: function() {
+        this.statLayer.addScore();
+    }
+
 
 })
 

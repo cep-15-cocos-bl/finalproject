@@ -21,11 +21,11 @@ var TrinketClass  = cc.Sprite.extend({
         this.posX = posX;
         this.posY = posY;
 
-        this.pbody = new cp.Body(1, Infinity);
+        this.pbody = new cp.Body(1, 0.1);
         this.pbody.setPos(cp.v(this.posX, this.posY));
 
         this.pshape = this.world.addShape(new cp.BoxShape(this.pbody, 20, 20));
-        this.pshape.setFriction(10.0);
+        this.pshape.setFriction(0.0);
         this.pshape.setElasticity(0.0);
         this.pshape.setCollisionType("trinket");
         this.pshape.name = "trinket" + id;
@@ -62,8 +62,7 @@ var TrinketClass  = cc.Sprite.extend({
             return null;
         } 
         this.world.removeShape(this.pshape);
-        //this.game.removeChild(this.tokenSprite);
-        this.game.addScore();
+        this.game.removeChild(this.tokenSprite);
         this.isAlive = false;
     },
 

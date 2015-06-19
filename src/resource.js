@@ -18,8 +18,11 @@ var res = {
     platform_png: "res/platform.png",
     background1_png: "res/background1.png",
     background2_png: "res/background2.png",
+    background3_png: "res/background3.png",
     start_n_png : "res/start_n.png",
-        start_s_png : "res/start_s.png"
+    start_s_png : "res/start_s.png",
+    token_plist: "res/token.plist",
+    token_png: "res/token.png"
 };
 
 var g_resources = [];
