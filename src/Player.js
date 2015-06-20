@@ -89,22 +89,22 @@ walk:function(x, y){
   var curPosY = this.pbody.getPos().y;
   if(x < this.pbody.getPos().x && y < this.pbody.getPos().y) { // left, forward
             playerSprite.runAction(this.WLwalkAction);
-            console.log("left");
+            //console.log("left");
             this.pbody.applyImpulse(cp.v(-60, 0), cp.v(0, 0));
             world.gravity = cp.v(0, -100);
         } else if(x < this.pbody.getPos().x  && y >= this.pbody.getPos().y ) { // left, upward
             playerSprite.runAction(this.UWLwalkAction);
-            console.log("Uleft");
+            //console.log("Uleft");
             this.pbody.applyImpulse(cp.v(-60, 0), cp.v(0, 0));
             world.gravity = cp.v(0, 100);
         } else if(x > this.pbody.getPos().x && y < this.pbody.getPos().y ) { // right, forward
             playerSprite.runAction(this.WRwalkAction);
-            console.log("right");
+            //console.log("right");
             this.pbody.applyImpulse(cp.v(60, 0), cp.v(0, 0));
             world.gravity = cp.v(0, -100);
         } else if(x > this.pbody.getPos().x  && y >= this.pbody.getPos().y ) { // right, upward
             playerSprite.runAction(this.UWRwalkAction);
-            console.log("Uright");
+            //console.log("Uright");
             this.pbody.applyImpulse(cp.v(60, 0), cp.v(0, 0));
             world.gravity = cp.v(0, 100);
         } else {
@@ -115,7 +115,7 @@ walk:function(x, y){
   //console.log(move);
   this.pbody.applyImpulse(cp.v(move*-1, 0), cp.v(0, 0));
   playerSprite.stopAllActions();
-  //console.log("Stop");
+  
  },
  moveright:function(a, b){
   this.pbody.applyImpulse(cp.v(100, 0), cp.v(0, 0));
@@ -124,11 +124,11 @@ walk:function(x, y){
   playerSprite.runAction(this.WRwalkAction);
 }
 else{
-  console.log("upside down right");
+  //console.log("upside down right");
   this.stopAllActions();
   playerSprite.runAction(this.UWRwalkAction);
   this.pbody.applyImpulse(cp.v(0, 0), cp.v(0, 0));
-  console.log(a);
+  //console.log(a);
 }
  },
  moveleft:function(a, b){
@@ -136,14 +136,14 @@ else{
   this.pbody.applyImpulse(cp.v(-100, 0), cp.v(0, 0));
   playerSprite.stopAllActions();
   playerSprite.runAction(this.WLwalkAction);
-  console.log("walking left");
+  //console.log("walking left");
 }
 else{
-  console.log("upside down left");
+  //console.log("upside down left");
   this.stopAllActions();
   playerSprite.runAction(this.UWLwalkAction);
   this.pbody.applyImpulse(cp.v(-100, 0), cp.v(0, 0));
-  console.log(a);
+  //console.log(a);
 }
  },
  flip:function(dir){
