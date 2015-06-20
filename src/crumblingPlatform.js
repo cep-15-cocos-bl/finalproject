@@ -80,6 +80,6 @@ var CrumblingPlatformClass = cc.Sprite.extend({
         this.lifespan = 2;
         this.pshape.decaying = false;
         this.exists = true;
-        this.world.addShape(this.pshape);
+//        this.world.addShape(this.pshape);
     }
 });

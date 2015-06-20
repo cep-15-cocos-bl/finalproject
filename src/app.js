@@ -13,6 +13,9 @@ var moved = false;
 var trinkets = [];
 var flippy = 0;
 var startOrEnd = true;
+var sceneNum = 0;
+var deathCooldown = 0
+;
 var gameScene = cc.Scene.extend({
 
     platforms: [],
@@ -24,6 +27,8 @@ var gameScene = cc.Scene.extend({
 
     onEnter: function() {
         this._super();
+
+        sceneNum = 1;
 
         winSize = cc.director.getWinSize();
         var background = new Backgroundlayer();
@@ -216,7 +221,7 @@ var gameScene = cc.Scene.extend({
             flipped = true;
             dir = dir+2;
         }
-        console.log(dir);
+        //console.log(dir);
             player.flip(dir);
             a = 60;
             grav = grav*-1;
@@ -227,7 +232,7 @@ var gameScene = cc.Scene.extend({
         canflip = false;
     }
                     return true;
-                console.log("Start");
+                //console.log("Start");
                 moving = false;
             
         },
@@ -281,7 +286,7 @@ var gameScene = cc.Scene.extend({
     },
 
     update: function(dt) {
-        console.log(trinketnum);
+        //console.log(trinketnum);
         world.step(dt);
         curplayerx = player.pbody.p.x;
         if(curplayerx > 750 && trinketnum == 2){
@@ -296,6 +301,9 @@ var gameScene = cc.Scene.extend({
         player.shape.image.x = player.pbody.p.x;
     player.shape.image.y = player.pbody.p.y;
 
+    deathCooldown -= dt;
+
+  
         for(var i = 0; i < crumblingPlatforms.length; i++) {
             if(crumblingPlatforms[i].pshape.decaying) {
                 crumblingPlatforms[i].advanceDecay(dt);
@@ -307,16 +315,16 @@ var gameScene = cc.Scene.extend({
 
             if(this.graveyard[i].collision_type == "trinket") {
                 trinkets[this.graveyard[i].id].die();
-                trinketnum =trinketnum+1;
+                this.statLayer.addScore();
             } else if(this.graveyard[i].collision_type == "player") {
-                this.statLayer.useLife();
-                /*if(--this.statLayer.lives > 0) {
-                    for(var i = 0; i < crumblingPlatforms.length ;i++) {
+                if(deathCooldown <= 0 && this.statLayer.useLife()) {
+                    player.pbody.setPos(cp.v(40, 540));
+                    for(var i = 0; i < crumblingPlatforms.length; i++) {
                         crumblingPlatforms[i].reset();
                     }
-                } else {
-                    player.die();
-                }*/
+                }
+
+                deathCooldown = 1;
             }
 
             this.graveyard.splice(i, 1);

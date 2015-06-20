@@ -23,7 +23,9 @@ var res = {
     start_s_png : "res/start_s.png",
     token_plist: "res/token.plist",
     token_png: "res/token.png",
-    start_png: "res/start.png"
+    start_png: "res/start.png",
+    end_png: "res/end.png",
+    death_png: "res/death.png"
 };
 
 var g_resources = [];

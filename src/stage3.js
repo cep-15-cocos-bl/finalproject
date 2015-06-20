@@ -16,6 +16,7 @@ var stage3 = cc.Scene.extend({
 
     onEnter: function() {
         this._super();
+        deathCooldown = 1;
         winSize = cc.director.getWinSize();
                 var background = new Backgroundlayer3();
         this.addChild(background);
@@ -176,6 +177,7 @@ var stage3 = cc.Scene.extend({
 
     update: function(dt) {
         world.step(dt);
+        deathCooldown -= dt;
         curplayerx = player.pbody.p.x;
         if(curplayerx<0){
             player.pbody.p.x = 800;
@@ -201,14 +203,14 @@ var stage3 = cc.Scene.extend({
                 trinketnum =trinketnum+1;
                 ("trinket collected");
             } else if(this.graveyard[i].collision_type == "player") {
-                this.statLayer.useLife();
-                /*if(--this.statLayer.lives > 0) {
+                if(deathCooldown <= 0 && this.statLayer.useLife()) {
+                    deathCooldown = 1;
                     for(var i = 0; i < crumblingPlatforms.length ;i++) {
                         crumblingPlatforms[i].reset();
                     }
-                } else {
-                    player.die();
-                }*/
+
+                    player.pbody.setPos(cp.v(40, 580));
+                }
             }
 
             this.graveyard.splice(i, 1);
