@@ -17,12 +17,11 @@
         "src/Player.js",
         "src/crumblingPlatform.js",
         "src/token.js",
-        "src/startend.js",
         "src/collision.js",
         "src/stage2.js",
         "src/stage3.js",
         "src/introScene.js",
-        "src/endScene.js",
+        "src/EndScene.js",
         "src/statLayer.js"
     ]
 }

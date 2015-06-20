@@ -1,5 +1,4 @@
 
-
 var MenuLayer = cc.Layer.extend({
 	ctor : function(){
 		//1. call super class's ctor function		
@@ -15,9 +14,9 @@ var MenuLayer = cc.Layer.extend({
 		var centerpos = cc.p(winsize.width / 2, winsize.height / 2);
 
 		//4. create a background image and set it's position at the center of the screen
-		/* var spritebg = new cc.Sprite(res.helloBG_png);
+		var startbg = new cc.Sprite(res.start_png);
         spritebg.setPosition(centerpos);
-        this.addChild(spritebg);*/
+        this.addChild(startbg);
 
 		//5.
 		cc.MenuItemFont.setFontSize(60);

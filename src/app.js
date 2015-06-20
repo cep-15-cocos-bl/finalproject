@@ -1,5 +1,6 @@
 var world;
 var a = 60;
+var trinketnum = 0;
 var moving = false;
 var crumblingPlatforms = [];
 var prevplayerx = 0;
@@ -7,9 +8,10 @@ var curplayerx = 0;
 var dir = 2;
 var move = 0;
 var flipped = false;
-var grav = -100;
+var grav = -200;
 var moved = false;
 var trinkets = [];
+var flippy = 0;
 var startOrEnd = true;
 var gameScene = cc.Scene.extend({
 
@@ -90,7 +92,7 @@ var gameScene = cc.Scene.extend({
         );
 
         for(var i = 0; i < 6; i++) {
-            this.platforms[i + 11] = new CrumblingPlatformClass(this, world, i * 40 + 180, 565, res.platform_png);
+            this.platforms[i + 11] = new CrumblingPlatformClass(this, world, i * 50 + 200, 565);
             crumblingPlatforms.push(this.platforms[i + 11]);
         }
 
@@ -99,7 +101,7 @@ var gameScene = cc.Scene.extend({
 
         for(var i = 0; i < 2; i++) {
             for(var j = 0; j < 10; j++) {
-                this.platforms[i * 10 + j + 18] = new CrumblingPlatformClass(this, world, j * 40 + 120, i * 10 + 295, res.platform_png);
+                this.platforms[i * 10 + j + 18] = new CrumblingPlatformClass(this, world, j * 50 + 120, i * 10 + 295);
                 crumblingPlatforms.push(this.platforms[i * 10 + j + 18]);
             }
         }
@@ -115,10 +117,6 @@ var gameScene = cc.Scene.extend({
         this.createPlatform(
             40, Infinity, Infinity, 325, 585, ["box", 350, 10], 0, 0, "spike"
         );
-
-        /*this.createPlatform(
-            41, Infinity, Infinity, 130, 515, ["box", 240, 10], 0, 0, "spike"
-        );*/
 
         this.createPlatform(
             42, Infinity, Infinity, 150, 425, ["box", 200, 10], 0, 0, "spike"
@@ -167,6 +165,9 @@ var gameScene = cc.Scene.extend({
         trinkets[0] = new TrinketClass(this, world, 335, 535, 0);
         trinkets[1] = new TrinketClass(this, world, 120, 120, 1);
 
+        this.btnLayer = new buttonLayer();
+        this.addChild(this.btnLayer);
+
         player = new PlayerClass(this, world, 40, 540, 10, 20, false, res.player_png);
         curplayerx = player.pbody.p.x;
         prevplayerx = player.pbody.p.x;
@@ -198,27 +199,22 @@ var gameScene = cc.Scene.extend({
                 var targetRectangle = cc.rect(0, 0, targetSize.width, targetSize.height);
                 curplayerx = player.shape.image.x;
 
-                if(startOrEnd) {
-                    startOrEnd = false;
-                    gs.removeOverlay();
-                }
-
             if(70<touch.getLocationX() && touch.getLocationX()<110 && 10<touch.getLocationY() && touch.getLocationY()<50 && moving == false){
                 //console.log("moving");
             player.moveright(60, flipped);
             moving = true;
             dir = 2; //RIGHT
-            move = 60;
+            move = 100;
         }
         else if(10<touch.getLocationX() && touch.getLocationX()<50 && 10<touch.getLocationY() && touch.getLocationY()<50 && moving == false){
             //console.log("moving left");
             player.moveleft(-60, flipped);
             moving = true;
             dir = 1; //LEFT
-            move = -60;
+            move = -100;
         }
             a = 0;
-                            if(touch.getLocationX()>400){
+                            if(touch.getLocationX()>300){
             //console.log("flipping");
             if(flipped == true){
                 flipped = false;
@@ -235,6 +231,7 @@ var gameScene = cc.Scene.extend({
             if(flipped == true){
             dir = dir-2;
         }
+        canflip = false;
     }
                     return true;
                 console.log("Start");
@@ -243,8 +240,7 @@ var gameScene = cc.Scene.extend({
         },
         //Trigger when moving touch  
         //Process the touch end event
-        onTouchEnded: function (touch, event) {  
-            //console.log(touch.getLocationX(), touch.getLocationY());
+        onTouchEnded: function (touch, event) {
             playerx = player.shape.image.x;
         if(moving == true){      
         player.stop(move);
@@ -292,8 +288,12 @@ var gameScene = cc.Scene.extend({
     },
 
     update: function(dt) {
+        console.log(trinketnum);
         world.step(dt);
         curplayerx = player.pbody.p.x;
+        if(curplayerx > 750 && trinketnum == 2){
+            cc.director.runScene(new stage2());
+        }
         var bigger = Math.max(curplayerx, prevplayerx);
         var smaller = Math.min(curplayerx, prevplayerx);
         if(bigger - smaller <0.5){
@@ -314,6 +314,7 @@ var gameScene = cc.Scene.extend({
 
             if(this.graveyard[i].collision_type == "trinket") {
                 trinkets[this.graveyard[i].id].die();
+                trinketnum =trinketnum+1;
             } else if(this.graveyard[i].collision_type == "player") {
                 this.statLayer.useLife();
                 /*if(--this.statLayer.lives > 0) {
@@ -332,11 +333,6 @@ var gameScene = cc.Scene.extend({
 
     addScore: function() {
         this.statLayer.addScore();
-    },
-
-    removeOverlay: function() {
-        this.removeChild(this.overLayer);
-        this.overLayer = null;
     }
 
 })

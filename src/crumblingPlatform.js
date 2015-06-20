@@ -20,7 +20,7 @@ var CrumblingPlatformClass = cc.Sprite.extend({
         this.world = gWorld;
         this.pbody = new cp.Body(Infinity, Infinity);
         this.pbody.setPos(cp.v(posX, posY));
-        this.pshape = this.world.addShape(new cp.BoxShape(this.pbody, 40, 10));
+        this.pshape = this.world.addShape(new cp.BoxShape(this.pbody, 50, 10));
         this.pshape.setElasticity(0);
         this.pshape.setFriction(0.0);
         //console.log("apple");

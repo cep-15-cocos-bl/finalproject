@@ -53,10 +53,10 @@ for (var i = 1; i < 3; i++) {
     UwalkRFrames.push(frame);
 }
 //3.create a animation with the spriteframe array along with a period time
-var WLanimation = new cc.Animation(walkLFrames, 0.4);
-var WRanimation = new cc.Animation(walkRFrames, 0.4);
-var UWLanimation = new cc.Animation(UwalkLFrames, 0.4);
-var UWRanimation = new cc.Animation(UwalkRFrames, 0.4);
+var WLanimation = new cc.Animation(walkLFrames, 0.3);
+var WRanimation = new cc.Animation(walkRFrames, 0.3);
+var UWLanimation = new cc.Animation(UwalkLFrames, 0.3);
+var UWRanimation = new cc.Animation(UwalkRFrames, 0.3);
 this.WLwalkAction = new cc.RepeatForever(new cc.Animate(WLanimation));
 this.WRwalkAction = new cc.RepeatForever(new cc.Animate(WRanimation));
 this.UWLwalkAction = new cc.RepeatForever(new cc.Animate(UWLanimation));
@@ -118,7 +118,7 @@ walk:function(x, y){
   //console.log("Stop");
  },
  moveright:function(a, b){
-  this.pbody.applyImpulse(cp.v(60, 0), cp.v(0, 0));
+  this.pbody.applyImpulse(cp.v(100, 0), cp.v(0, 0));
   if(b == false){
   playerSprite.stopAllActions();
   playerSprite.runAction(this.WRwalkAction);
@@ -133,7 +133,7 @@ else{
  },
  moveleft:function(a, b){
   if(b == false){
-  this.pbody.applyImpulse(cp.v(-60, 0), cp.v(0, 0));
+  this.pbody.applyImpulse(cp.v(-100, 0), cp.v(0, 0));
   playerSprite.stopAllActions();
   playerSprite.runAction(this.WLwalkAction);
   console.log("walking left");
@@ -142,7 +142,7 @@ else{
   console.log("upside down left");
   this.stopAllActions();
   playerSprite.runAction(this.UWLwalkAction);
-  this.pbody.applyImpulse(cp.v(-60, 0), cp.v(0, 0));
+  this.pbody.applyImpulse(cp.v(-100, 0), cp.v(0, 0));
   console.log(a);
 }
  },
@@ -160,5 +160,10 @@ else{
  else{
   playerSprite.runAction(this.UWLwalkAction);
  }
+},
+pos:function(){
+  playerSprite.stopAllActions();
+  playerSprite.runAction(this.UWRwalkAction);
 }
+
 })
