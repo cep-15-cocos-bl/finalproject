@@ -12,6 +12,7 @@ var grav = -200;
 var moved = false;
 var trinkets = [];
 var flippy = 0;
+var startOrEnd = true;
 var gameScene = cc.Scene.extend({
 
     platforms: [],
@@ -19,9 +20,11 @@ var gameScene = cc.Scene.extend({
     statLayer: null,
     player: null,
     graveyard: [],
+    overLayer: null,
 
     onEnter: function() {
         this._super();
+
         winSize = cc.director.getWinSize();
         var background = new Backgroundlayer();
         this.addChild(background);
@@ -148,11 +151,11 @@ var gameScene = cc.Scene.extend({
         );
 
         this.createPlatform(
-            50, Infinity, Infinity, 380, 475, ["box", 160, 10], 0, 0, "ground"
+            50, Infinity, Infinity, 380, 475, ["box", 160, 10], 0, 0, "spike"
         );
 
         this.createPlatform(
-            51, Infinity, Infinity, 380, 365, ["box", 160, 10], 0, 0, "ground"
+            51, Infinity, Infinity, 380, 365, ["box", 160, 10], 0, 0, "spike"
         );
 
         this.createPlatform(
@@ -169,6 +172,13 @@ var gameScene = cc.Scene.extend({
         curplayerx = player.pbody.p.x;
         prevplayerx = player.pbody.p.x;
 
+        this.overLayer = new startBackground();
+        this.addChild(this.overLayer);
+        this.overLayer.setPosition(400, 300);
+
+        this.btnLayer = new buttonLayer();
+        this.addChild(this.btnLayer);
+
         world.env = this;
         world.setDefaultCollisionHandler(
             collisionHandler.beginCollision,
@@ -176,6 +186,7 @@ var gameScene = cc.Scene.extend({
             collisionHandler.postCollision,
             collisionHandler.endCollision
         );
+
         var listener = cc.EventListener.create({
   event: cc.EventListener.TOUCH_ONE_BY_ONE,
   swallowTouches: true,
@@ -187,8 +198,7 @@ var gameScene = cc.Scene.extend({
                 var targetSize = target.getContentSize();
                 var targetRectangle = cc.rect(0, 0, targetSize.width, targetSize.height);
                 curplayerx = player.shape.image.x;
-                console.log(touch.getLocationX());
-                console.log(touch.getLocationY());
+
             if(70<touch.getLocationX() && touch.getLocationX()<110 && 10<touch.getLocationY() && touch.getLocationY()<50 && moving == false){
                 //console.log("moving");
             player.moveright(60, flipped);
@@ -230,7 +240,7 @@ var gameScene = cc.Scene.extend({
         },
         //Trigger when moving touch  
         //Process the touch end event
-        onTouchEnded: function (touch, event) { 
+        onTouchEnded: function (touch, event) {
             playerx = player.shape.image.x;
         if(moving == true){      
         player.stop(move);
@@ -324,7 +334,6 @@ var gameScene = cc.Scene.extend({
     addScore: function() {
         this.statLayer.addScore();
     }
-
 
 })
 

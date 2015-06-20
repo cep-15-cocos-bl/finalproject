@@ -5,7 +5,7 @@ var CrumblingPlatformClass = cc.Sprite.extend({
     pbody: null,
     pshape: null,
     sprite: null,
-    lifespan: 1,
+    lifespan: 2,
     decaying: false,
     exists: true, 
     collision_type: "crumbling",
@@ -77,7 +77,7 @@ var CrumblingPlatformClass = cc.Sprite.extend({
     },
 
     reset: function() {
-        this.lifespan = 1000;
+        this.lifespan = 2;
         this.pshape.decaying = false;
         this.exists = true;
         this.world.addShape(this.pshape);
