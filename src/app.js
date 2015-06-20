@@ -172,13 +172,6 @@ var gameScene = cc.Scene.extend({
         curplayerx = player.pbody.p.x;
         prevplayerx = player.pbody.p.x;
 
-        this.overLayer = new startBackground();
-        this.addChild(this.overLayer);
-        this.overLayer.setPosition(400, 300);
-
-        this.btnLayer = new buttonLayer();
-        this.addChild(this.btnLayer);
-
         world.env = this;
         world.setDefaultCollisionHandler(
             collisionHandler.beginCollision,
