@@ -59,13 +59,10 @@ var StatusLayer = cc.Layer.extend({
     useLife: function() {
         if(gameNeedsRestarting) return false;
 
-        console.log(this.lives);
-
         if(--this.lives >= 0) {
             this.labelLives.setString("Lives left: " + this.lives);
             return true;
         } else {
-            cc.director.pause();
             this.labelLives.setString("Game over! All lives are used. \n Refresh to start a new game.");
             this.addChild(this.deathbg);
             this.addChild(this.menubtn.menu);

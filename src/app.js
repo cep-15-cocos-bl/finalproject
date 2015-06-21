@@ -14,7 +14,10 @@ var trinkets = [];
 var flippy = 0;
 var startOrEnd = true;
 var sceneNum = 0;
-var deathCooldown = 0
+var deathCooldown = 0;
+var deathindex = 0;
+var stock = 5;
+
 ;
 var gameScene = cc.Scene.extend({
 
@@ -97,7 +100,7 @@ var gameScene = cc.Scene.extend({
         );
 
         for(var i = 0; i < 6; i++) {
-            this.platforms[i + 11] = new CrumblingPlatformClass(this, world, i * 50 + 200, 565);
+            this.platforms[i + 11] = new CrumblingPlatformClass(this, world, i * 50 + 200, 565,res.platform_png);
             crumblingPlatforms.push(this.platforms[i + 11]);
         }
 
@@ -106,7 +109,7 @@ var gameScene = cc.Scene.extend({
 
         for(var i = 0; i < 2; i++) {
             for(var j = 0; j < 10; j++) {
-                this.platforms[i * 10 + j + 18] = new CrumblingPlatformClass(this, world, j * 50 + 120, i * 10 + 295);
+                this.platforms[i * 10 + j + 18] = new CrumblingPlatformClass(this, world, j * 50 + 120, i * 10 + 295,res.platform_png);
                 crumblingPlatforms.push(this.platforms[i * 10 + j + 18]);
             }
         }
@@ -229,7 +232,6 @@ var gameScene = cc.Scene.extend({
             if(flipped == true){
             dir = dir-2;
         }
-        canflip = false;
     }
                     return true;
                 //console.log("Start");
@@ -316,15 +318,44 @@ var gameScene = cc.Scene.extend({
             if(this.graveyard[i].collision_type == "trinket") {
                 trinkets[this.graveyard[i].id].die();
                 this.statLayer.addScore();
+                trinketnum = trinketnum + 1;
             } else if(this.graveyard[i].collision_type == "player") {
+                stock = stock - 1;
                 if(deathCooldown <= 0 && this.statLayer.useLife()) {
                     player.pbody.setPos(cp.v(40, 540));
                     for(var i = 0; i < crumblingPlatforms.length; i++) {
-                        crumblingPlatforms[i].reset();
-                    }
+                if(crumblingPlatforms[i].exists){
+                    crumblingPlatforms[i].restart();
+            }
+
+        }
+        crumblingPlatforms = [];
+        platforms = [];
+        for(var i = 0; i < 6; i++) {
+            this.platforms[i + 11] = new CrumblingPlatformClass(this, world, i * 50 + 200, 565, res.platform_png);
+            crumblingPlatforms.push(this.platforms[i + 11]);
+        }
+        this.platforms[17] = new CrumblingPlatformClass(this, world, 120, 90,res.platform_png);
+        crumblingPlatforms.push(this.platforms[17]);
+
+        for(var i = 0; i < 2; i++) {
+            for(var j = 0; j < 10; j++) {
+                this.platforms[i * 10 + j + 18] = new CrumblingPlatformClass(this, world, j * 50 + 120, i * 10 + 295,res.platform_png);
+                crumblingPlatforms.push(this.platforms[i * 10 + j + 18]);
+            }
+        }
                 }
 
                 deathCooldown = 1;
+            }
+            else if(!this.statLayer.useLife()){
+                console.log("dying");
+                            for(var i = 0; i < crumblingPlatforms.length; i++) {
+            if(crumblingPlatforms[i].exists){
+                console.log("removing");
+                    crumblingPlatforms[i].restart();
+            }
+        }
             }
 
             this.graveyard.splice(i, 1);

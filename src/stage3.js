@@ -8,9 +8,8 @@ var flipped = false;
 var grav = -200;
 var moved = false;
 var trinkets = [];
-
+var trinket3 = 0;
 var stage3 = cc.Scene.extend({
-
     platforms: [],
     graveyard: [],
 
@@ -71,6 +70,8 @@ var stage3 = cc.Scene.extend({
 
         this.btnLayer = new buttonLayer();
         this.addChild(this.btnLayer);
+        this.statLayer = new StatusLayer();
+        this.addChild(this.statLayer);
         player = new PlayerClass(this, world, 40, 580, 10, 20, false, res.player_png);
         trinkets[0] = new TrinketClass(this, world, 35, 130, 0);
         curplayerx = player.pbody.p.x;
@@ -136,7 +137,7 @@ var stage3 = cc.Scene.extend({
         //Process the touch end event
         onTouchEnded: function (touch, event) { 
             playerx = player.shape.image.x;
-        if(moving == true){      
+        if(moving == true && player.shape.image.y>90){      
         player.stop(move);
         a = 60;
         moving = false;
@@ -185,7 +186,7 @@ var stage3 = cc.Scene.extend({
         else if(curplayerx>800){
             player.pbody.p.x = 0;
         }
-        if(trinketnum == 1){
+        if(trinket3 == 1){
             cc.director.runScene(new EndScene());
         }
         var bigger = Math.max(curplayerx, prevplayerx);
@@ -200,14 +201,11 @@ var stage3 = cc.Scene.extend({
 
             if(this.graveyard[i].collision_type == "trinket") {
                 trinkets[this.graveyard[i].id].die();
-                trinketnum =trinketnum+1;
+                trinket3 =trinket3+1;
                 ("trinket collected");
             } else if(this.graveyard[i].collision_type == "player") {
                 if(deathCooldown <= 0 && this.statLayer.useLife()) {
                     deathCooldown = 1;
-                    for(var i = 0; i < crumblingPlatforms.length ;i++) {
-                        crumblingPlatforms[i].reset();
-                    }
 
                     player.pbody.setPos(cp.v(40, 580));
                 }

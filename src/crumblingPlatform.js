@@ -5,8 +5,9 @@ var CrumblingPlatformClass = cc.Sprite.extend({
     pbody: null,
     pshape: null,
     sprite: null,
-    lifespan: 2,
+    lifespan: 1,
     decaying: false,
+    dead: false,
     exists: true, 
     collision_type: "crumbling",
     crumblingId: 0,
@@ -57,6 +58,7 @@ var CrumblingPlatformClass = cc.Sprite.extend({
         }
 
         this.pshape.decaying = true;
+        this.pshape.dead = true;
         //console.log(this.lifespan + ", " + dt);
 
         if(this.lifespan < dt) {
@@ -76,10 +78,9 @@ var CrumblingPlatformClass = cc.Sprite.extend({
 
     },
 
-    reset: function() {
-        this.lifespan = 2;
-        this.pshape.decaying = false;
-        this.exists = true;
-//        this.world.addShape(this.pshape);
+    restart: function() {
+        this.CSprite.runAction(this.CAction);
+        this.world.removeShape(this.pshape);
+        this.game.removeChild(this.Csprite);
     }
 });

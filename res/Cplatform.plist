@@ -7,54 +7,54 @@
             <key>Cplatform1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,2},{40,10}}</string>
+                <string>{{2,2},{50,10}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{40,10}}</string>
+                <string>{{0,0},{50,10}}</string>
                 <key>sourceSize</key>
-                <string>{40,10}</string>
+                <string>{50,10}</string>
             </dict>
             <key>Cplatform2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{44,2},{40,10}}</string>
+                <string>{{54,2},{50,10}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{40,10}}</string>
+                <string>{{0,0},{50,10}}</string>
                 <key>sourceSize</key>
-                <string>{40,10}</string>
+                <string>{50,10}</string>
             </dict>
             <key>Cplatform3.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{86,2},{40,10}}</string>
+                <string>{{106,2},{50,10}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{40,10}}</string>
+                <string>{{0,0},{50,10}}</string>
                 <key>sourceSize</key>
-                <string>{40,10}</string>
+                <string>{50,10}</string>
             </dict>
             <key>Cplatform4.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{128,2},{12,4}}</string>
+                <string>{{158,2},{14,4}}</string>
                 <key>offset</key>
-                <string>{14,3}</string>
+                <string>{9,3}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{28,0},{12,4}}</string>
+                <string>{{27,0},{14,4}}</string>
                 <key>sourceSize</key>
-                <string>{40,10}</string>
+                <string>{50,10}</string>
             </dict>
         </dict>
         <key>metadata</key>
@@ -64,9 +64,9 @@
             <key>realTextureFileName</key>
             <string>Cplatform.png</string>
             <key>size</key>
-            <string>{151,14}</string>
+            <string>{174,14}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:fdbfc8930c01afcde2538943063859f7:15492e616c1256c2008394f6401c7766:3683e982d68f7b0ea0c89a61e675641a$</string>
+            <string>$TexturePacker:SmartUpdate:3d199f1f141c2e06dbd7ec4e78eabcee:7fe26fc2c1a0405ca631e731d09d661b:3683e982d68f7b0ea0c89a61e675641a$</string>
             <key>textureFileName</key>
             <string>Cplatform.png</string>
         </dict>

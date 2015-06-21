@@ -109,13 +109,11 @@ var stage2 = cc.Scene.extend({
         this.addChild(this.btnLayer);
         player = new PlayerClass(this, world, 40, 100, 10, 20, false, res.player_png);
         player.pos();
-        dir = 4;
+        dir = 2;
         console.log(trinketnum);
         trinkets[0] = new TrinketClass(this, world, 40, 550, 0);
                 curplayerx = player.pbody.p.x;
         prevplayerx = player.pbody.p.x;
-
-        
         world.env = this;
         world.setDefaultCollisionHandler(
             collisionHandler.beginCollision,
@@ -246,10 +244,7 @@ var stage2 = cc.Scene.extend({
             } else if(this.graveyard[i].collision_type == "player") {
                 if(deathCooldown <= 0 && this.statLayer.useLife()) {
                     deathCooldown = 1;
-                    for(var i = 0; i < crumblingPlatforms.length ;i++) {
-                        crumblingPlatforms[i].reset();
-                    }
-                    player.pbody.setPos(40, 100);                    
+                    player.pbody.setPos(cp.v(40, 100));                    
                 }
             }
 
@@ -261,6 +256,7 @@ var stage2 = cc.Scene.extend({
     },
 
     addScore: function() {
+        trinketnum = trinketnum+1;
         this.statLayer.addScore();
     }
 
