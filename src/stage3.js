@@ -12,6 +12,7 @@ var trinket3 = 0;
 var stage3 = cc.Scene.extend({
     platforms: [],
     graveyard: [],
+    statLayer: null,
 
     onEnter: function() {
         this._super();
@@ -70,8 +71,7 @@ var stage3 = cc.Scene.extend({
 
         this.btnLayer = new buttonLayer();
         this.addChild(this.btnLayer);
-        this.statLayer = new StatusLayer();
-        this.addChild(this.statLayer);
+        this.addChild(statLayer);
         player = new PlayerClass(this, world, 40, 580, 10, 20, false, res.player_png);
         trinkets[0] = new TrinketClass(this, world, 35, 130, 0);
         curplayerx = player.pbody.p.x;
@@ -201,10 +201,9 @@ var stage3 = cc.Scene.extend({
 
             if(this.graveyard[i].collision_type == "trinket") {
                 trinkets[this.graveyard[i].id].die();
-                trinket3 =trinket3+1;
-                ("trinket collected");
+                statLayer.addScore();
             } else if(this.graveyard[i].collision_type == "player") {
-                if(deathCooldown <= 0 && this.statLayer.useLife()) {
+                if(deathCooldown <= 0 && statLayer.useLife()) {
                     deathCooldown = 1;
 
                     player.pbody.setPos(cp.v(40, 580));
@@ -217,6 +216,10 @@ var stage3 = cc.Scene.extend({
     player.shape.image.y = player.pbody.p.y;
         prevplayerx = curplayerx;
     },
+
+    addScore: function() {
+        statLayer.addScore();
+    }
 });
 
 

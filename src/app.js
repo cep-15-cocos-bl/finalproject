@@ -17,13 +17,13 @@ var sceneNum = 0;
 var deathCooldown = 0;
 var deathindex = 0;
 var stock = 5;
+var statLayer;
 
 ;
 var gameScene = cc.Scene.extend({
 
     platforms: [],
     btnLayer: null,
-    statLayer: null,
     player: null,
     graveyard: [],
     overLayer: null,
@@ -166,10 +166,6 @@ var gameScene = cc.Scene.extend({
             51, Infinity, Infinity, 380, 365, ["box", 160, 10], 0, 0, "spike"
         );
 
-        this.createPlatform(
-            52, Infinity, Infinity, 520, 225, ["box", 160, 10], 0, 0, "spike"
-        );
-
         trinkets[0] = new TrinketClass(this, world, 335, 535, 0);
         trinkets[1] = new TrinketClass(this, world, 120, 120, 1);
 
@@ -255,8 +251,8 @@ var gameScene = cc.Scene.extend({
         cc.eventManager.addListener(listener, this);
 
         //console.log(crumblingPlatforms[17]);
-        this.statLayer = new StatusLayer();
-        this.addChild(this.statLayer);
+        statLayer = new StatusLayer();
+        this.addChild(statLayer);
 
         this.scheduleUpdate();
     },
@@ -317,11 +313,11 @@ var gameScene = cc.Scene.extend({
 
             if(this.graveyard[i].collision_type == "trinket") {
                 trinkets[this.graveyard[i].id].die();
-                this.statLayer.addScore();
+                statLayer.addScore();
                 trinketnum = trinketnum + 1;
             } else if(this.graveyard[i].collision_type == "player") {
                 stock = stock - 1;
-                if(deathCooldown <= 0 && this.statLayer.useLife()) {
+                if(deathCooldown <= 0 && statLayer.useLife()) {
                     player.pbody.setPos(cp.v(40, 540));
                     for(var i = 0; i < crumblingPlatforms.length; i++) {
                 if(crumblingPlatforms[i].exists){
@@ -348,7 +344,7 @@ var gameScene = cc.Scene.extend({
 
                 deathCooldown = 1;
             }
-            else if(!this.statLayer.useLife()){
+            else if(!statLayer.useLife()){
                 console.log("dying");
                             for(var i = 0; i < crumblingPlatforms.length; i++) {
             if(crumblingPlatforms[i].exists){
@@ -364,7 +360,7 @@ var gameScene = cc.Scene.extend({
     },
 
     addScore: function() {
-        this.statLayer.addScore();
+        statLayer.addScore();
     }
 
 })

@@ -188,8 +188,7 @@ var stage2 = cc.Scene.extend({
         cc.eventManager.addListener(listener, this);
 
         //console.log(crumblingPlatforms[17]);
-        this.statLayer = new StatusLayer();
-        this.addChild(this.statLayer);
+        this.addChild(statLayer);
 
         this.scheduleUpdate();
     },
@@ -240,9 +239,9 @@ var stage2 = cc.Scene.extend({
             if(this.graveyard[i].collision_type == "trinket") {
                 trinkets[this.graveyard[i].id].die();
                 trinketnum =trinketnum+1;
-                ("trinket collected");
+                statLayer.addScore();
             } else if(this.graveyard[i].collision_type == "player") {
-                if(deathCooldown <= 0 && this.statLayer.useLife()) {
+                if(deathCooldown <= 0 && statLayer.useLife()) {
                     deathCooldown = 1;
                     player.pbody.setPos(cp.v(40, 100));                    
                 }
@@ -257,7 +256,7 @@ var stage2 = cc.Scene.extend({
 
     addScore: function() {
         trinketnum = trinketnum+1;
-        this.statLayer.addScore();
+        statLayer.addScore();
     }
 
 
