@@ -252,7 +252,7 @@ var gameScene = cc.Scene.extend({
 
         //console.log(crumblingPlatforms[17]);
         statLayer = new StatusLayer();
-        this.addChild(statLayer);
+        this.addChild(statLayer,1000);
 
         this.scheduleUpdate();
     },
@@ -340,11 +340,10 @@ var gameScene = cc.Scene.extend({
                 crumblingPlatforms.push(this.platforms[i * 10 + j + 18]);
             }
         }
+        deathCooldown = 1;
                 }
-
-                deathCooldown = 1;
             }
-            else if(!statLayer.useLife()){
+            /*else if(!statLayer.useLife()){
                 console.log("dying");
                             for(var i = 0; i < crumblingPlatforms.length; i++) {
             if(crumblingPlatforms[i].exists){
@@ -352,7 +351,7 @@ var gameScene = cc.Scene.extend({
                     crumblingPlatforms[i].restart();
             }
         }
-            }
+            }*/
 
             this.graveyard.splice(i, 1);
         }

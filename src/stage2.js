@@ -188,7 +188,8 @@ var stage2 = cc.Scene.extend({
         cc.eventManager.addListener(listener, this);
 
         //console.log(crumblingPlatforms[17]);
-        this.addChild(statLayer);
+
+        this.addChild(statLayer, 1000);
 
         this.scheduleUpdate();
     },

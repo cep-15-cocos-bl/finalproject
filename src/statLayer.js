@@ -6,6 +6,7 @@ var StatusLayer = cc.Layer.extend({
     lives: 5,
     endbg: null,
     deathbg: null,
+    deathbgon: false,
     menubtn: {},
 
     ctor: function() {
@@ -57,7 +58,8 @@ var StatusLayer = cc.Layer.extend({
     },
 
     useLife: function() {
-        if(gameNeedsRestarting) return false;
+        console.log(this.deathbgon);
+        if(gameNeedsRestarting || this.deathbgon) return false;
 
         if(--this.lives >= 0) {
             this.labelLives.setString("Lives left: " + this.lives);
@@ -65,6 +67,7 @@ var StatusLayer = cc.Layer.extend({
         } else {
             this.labelLives.setString("Game over! All lives are used. \n Refresh to start a new game.");
             this.addChild(this.deathbg);
+            this.deathbgon = true;
             this.addChild(this.menubtn.menu);
 
             return false;
